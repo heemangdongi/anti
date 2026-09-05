@@ -6,13 +6,18 @@
   "scripts": {
     "start": "remotion studio",
     "build": "remotion render src/index.ts MainComposition out/video.mp4",
-    "render:shorts": "node render-all.mjs"
+    "render:shorts": "node render-all.mjs",
+    "tts": "node generate-tts.mjs",
+    "render:voice": "remotion render src/index.ts VoiceShorts out/voice-shorts.mp4"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
     "@remotion/google-fonts": "^4.0.520",
     "@remotion/lottie": "^4.0.520",
+    "@remotion/media-utils": "^4.0.520",
     "@remotion/player": "^4.0.0",
+    "edge-tts-node": "^1.5.7",
+    "edge-tts-universal": "^1.4.0",
     "lottie-web": "^5.13.0",
     "lucide-react": "^1.41.0",
     "react": "^18.2.0",

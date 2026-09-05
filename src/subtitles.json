@@ -1,0 +1,110 @@
+{
+  "script": "안녕하세요! 오늘 단 하루만 진행되는 파격 특가 소식입니다. 지금 프로필 링크를 확인해 보세요!",
+  "fps": 30,
+  "subtitles": [
+    {
+      "id": 1,
+      "text": "안녕하세요",
+      "startSec": 0.1,
+      "endSec": 1.0250000000000001,
+      "startFrame": 3,
+      "endFrame": 31
+    },
+    {
+      "id": 2,
+      "text": "오늘",
+      "startSec": 1.9,
+      "endSec": 2.225,
+      "startFrame": 57,
+      "endFrame": 67
+    },
+    {
+      "id": 3,
+      "text": "단",
+      "startSec": 2.2375,
+      "endSec": 2.4499999999999997,
+      "startFrame": 67,
+      "endFrame": 73
+    },
+    {
+      "id": 4,
+      "text": "하루만",
+      "startSec": 2.4625,
+      "endSec": 2.8625,
+      "startFrame": 74,
+      "endFrame": 86
+    },
+    {
+      "id": 5,
+      "text": "진행되는",
+      "startSec": 2.875,
+      "endSec": 3.5,
+      "startFrame": 86,
+      "endFrame": 105
+    },
+    {
+      "id": 6,
+      "text": "파격",
+      "startSec": 3.5125,
+      "endSec": 3.9250000000000003,
+      "startFrame": 105,
+      "endFrame": 118
+    },
+    {
+      "id": 7,
+      "text": "특가",
+      "startSec": 3.9375,
+      "endSec": 4.2625,
+      "startFrame": 118,
+      "endFrame": 128
+    },
+    {
+      "id": 8,
+      "text": "소식입니다",
+      "startSec": 4.275,
+      "endSec": 5.112500000000001,
+      "startFrame": 128,
+      "endFrame": 153
+    },
+    {
+      "id": 9,
+      "text": "지금",
+      "startSec": 5.9875,
+      "endSec": 6.35,
+      "startFrame": 180,
+      "endFrame": 191
+    },
+    {
+      "id": 10,
+      "text": "프로필",
+      "startSec": 6.3625,
+      "endSec": 6.8,
+      "startFrame": 191,
+      "endFrame": 204
+    },
+    {
+      "id": 11,
+      "text": "링크를",
+      "startSec": 6.8125,
+      "endSec": 7.2625,
+      "startFrame": 204,
+      "endFrame": 218
+    },
+    {
+      "id": 12,
+      "text": "확인해",
+      "startSec": 7.275,
+      "endSec": 7.612500000000001,
+      "startFrame": 218,
+      "endFrame": 228
+    },
+    {
+      "id": 13,
+      "text": "보세요",
+      "startSec": 7.625,
+      "endSec": 8.1875,
+      "startFrame": 229,
+      "endFrame": 246
+    }
+  ]
+}

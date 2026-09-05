@@ -1,15 +1,20 @@
+// ============================================================================
+// 🎬 src/Root.tsx
 // Remotion의 Root 컴포넌트입니다.
-// 이 파일에서는 만드는 비디오의 설정(ID, 해상도, 초당 프레임 수(FPS), 전체 길이 등)을 Composition으로 등록합니다.
+// 이 파일에서는 만드는 모든 비디오의 설정(ID, 해상도, 초당 프레임 수(FPS), 전체 길이 등)을 Composition으로 등록합니다.
+// ============================================================================
+
 import React from "react";
 import { Composition } from "remotion";
 import { MainComposition } from "./Composition";
 import { ProductShorts } from "./ProductShorts";
+import { VoiceShorts } from "./VoiceShorts";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      {/* 기존 예제 컴포지션 (가로형 16:9) */}
-      <Composition
+      {/* 1. 기본 예제 컴포지션 (가로형 16:9 - 1920x1080, 5초/150프레임) */}
+      <Composition<any, any>
         id="MainComposition"
         component={MainComposition}
         durationInFrames={150}
@@ -22,8 +27,8 @@ export const RemotionRoot: React.FC = () => {
         }}
       />
 
-      {/* 🚀 쿠팡 파트너스 / 쇼핑 홍보 숏폼 컴포지션 (세로형 9:16 - 1080x1920, 15초/450프레임) */}
-      <Composition
+      {/* 2. 쿠팡 파트너스 / 쇼핑 홍보 숏폼 컴포지션 (세로형 9:16 - 1080x1920, 15초/450프레임) */}
+      <Composition<any, any>
         id="CoupangProductShorts"
         component={ProductShorts}
         durationInFrames={450}
@@ -46,7 +51,22 @@ export const RemotionRoot: React.FC = () => {
           primaryColor: "#FF385C",
         }}
       />
+
+      {/* 3. 🎙️ AI 한국어 음성(TTS) & 단어별 실시간 자막 싱크 쇼츠 (세로형 9:16 - 1080x1920, 약 9초/270프레임) */}
+      <Composition<any, any>
+        id="VoiceShorts"
+        component={VoiceShorts}
+        durationInFrames={270}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          title: "오늘의 핵심 특가 소식!",
+          badgeText: "AI 스마트 브리핑",
+          primaryColor: "#FF007A",
+          secondaryColor: "#7928CA",
+        }}
+      />
     </>
   );
 };
-
