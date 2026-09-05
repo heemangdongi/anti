@@ -1,41 +1,69 @@
 ﻿<!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🚀 글로벌 숏폼 떡상 채널 정밀 분석기 (Shorts Trend Analytics)</title>
+  <title>🚀 글로벌 숏폼 떡상 채널 정밀 분석기</title>
   <style>
 ﻿/* ============================================================================
  * 🎨 trend_analytics_app/styles.css
- * 글로벌 숏폼 떡상 채널 정밀 분석기 - 프리미엄 다크 글래스모피즘 디자인 시스템
+ * 글로벌 숏폼 떡상 채널 정밀 분석기 - 라이트/다크 테마 & 고대비 가독성 강화 스타일
  * ============================================================================ */
 
+/* 🌙 기본 다크 모드 테마 변수 */
 :root {
-  --bg-main: #06090F;
-  --bg-sidebar: rgba(13, 19, 33, 0.85);
-  --bg-card: rgba(20, 29, 49, 0.65);
-  --bg-card-hover: rgba(30, 43, 73, 0.85);
-  --border-glass: rgba(255, 255, 255, 0.1);
-  --border-glow: rgba(254, 44, 85, 0.4);
+  --bg-main: #070B14;
+  --bg-panel: #111827;
+  --bg-card: #162032;
+  --bg-card-hover: #1E2B45;
+  --bg-input: #0B111E;
+  
+  --border-color: #2D3D5A;
+  --border-glow: #FE2C55;
 
-  --text-white: #FFFFFF;
-  --text-light: #E2E8F0;
+  /* 고대비 텍스트 색상 (선명하게 보임) */
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
   --text-muted: #94A3B8;
-  --text-dim: #64748B;
+  --text-highlight: #38BDF8;
 
+  /* 포인트 악센트 */
   --accent-pink: #FE2C55;
-  --accent-cyan: #25F4EE;
-  --accent-gold: #F59E0B;
-  --accent-purple: #8B5CF6;
-  --accent-emerald: #10B981;
-  --accent-fire: #FF5722;
+  --accent-cyan: #00F2FE;
+  --accent-gold: #FBBF24;
+  --accent-green: #34D399;
+  --accent-fire: #FF4500;
 
-  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 25px rgba(254, 44, 85, 0.25);
+  --shadow-main: 0 10px 30px rgba(0, 0, 0, 0.6);
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-full: 9999px;
+}
+
+/* ☀️ 밝은 모드 (라이트 테마) 변수 */
+[data-theme="light"] {
+  --bg-main: #F1F5F9;
+  --bg-panel: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-input: #F8FAFC;
+  
+  --border-color: #CBD5E1;
+  --border-glow: #2563EB;
+
+  --text-primary: #0F172A;
+  --text-secondary: #1E293B;
+  --text-muted: #475569;
+  --text-highlight: #0284C7;
+
+  --accent-pink: #E11D48;
+  --accent-cyan: #0284C7;
+  --accent-gold: #D97706;
+  --accent-green: #059669;
+  --accent-fire: #EA580C;
+
+  --shadow-main: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -46,86 +74,78 @@
 
 body {
   background-color: var(--bg-main);
-  background-image:
-    radial-gradient(circle at 15% 15%, rgba(254, 44, 85, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 85% 20%, rgba(37, 244, 238, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
-  color: var(--text-white);
+  color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-}
-
-/* 커스텀 스크롤바 */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.35);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* ========================================================================== */
-/* 🚀 상단 네비게이션 헤더 */
+/* 🚀 상단 헤더 & 테마 토글 버튼 */
 /* ========================================================================== */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 36px;
-  background: rgba(10, 15, 28, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-glass);
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: var(--shadow-main);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .brand-logo {
   font-size: 32px;
-  filter: drop-shadow(0 0 12px rgba(254, 44, 85, 0.6));
-  animation: pulse 3s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
 }
 
 .brand-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #FFFFFF 20%, #25F4EE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
 }
 
 .brand-desc {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
-  letter-spacing: -0.2px;
+  font-weight: 600;
 }
 
 .header-tools {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+}
+
+/* ☀️/🌙 테마 토글 버튼 */
+.btn-theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 9px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-theme-toggle:hover {
+  border-color: var(--text-highlight);
+  transform: translateY(-2px);
 }
 
 .btn-action {
@@ -135,379 +155,445 @@ body {
   padding: 9px 18px;
   border-radius: var(--radius-full);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
-  border: 1px solid var(--border-glass);
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transition: all 0.2s;
 }
 
 .btn-action:hover {
-  background: rgba(255, 255, 255, 0.16);
   transform: translateY(-2px);
 }
 
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-pink) 0%, #FF6B8B 100%);
   border: none;
+  color: #FFFFFF;
   box-shadow: 0 4px 15px rgba(254, 44, 85, 0.4);
 }
 
-.btn-primary:hover {
-  background: linear-gradient(135deg, #FF1E47 0%, #FF5A7D 100%);
-  box-shadow: 0 6px 22px rgba(254, 44, 85, 0.6);
-}
-
 /* ========================================================================== */
-/* 📱 메인 앱 레이아웃 (사이드바 + 콘텐츠) */
+/* 📱 메인 컨테이너 */
 /* ========================================================================== */
-.app-container {
-  display: flex;
-  flex: 1;
+.main-wrapper {
   width: 100%;
-  max-width: 1720px;
+  max-width: 1560px;
   margin: 0 auto;
-  padding: 24px 32px;
-  gap: 28px;
-}
-
-/* ========================================================================== */
-/* 🎛️ 좌측 정밀 필터 사이드바 */
-/* ========================================================================== */
-.filter-sidebar {
-  width: 360px;
-  min-width: 340px;
-  background: var(--bg-sidebar);
-  backdrop-filter: blur(24px);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 24px 32px 60px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  height: fit-content;
-  position: sticky;
-  top: 90px;
-  box-shadow: var(--shadow-lg);
+  gap: 24px;
 }
 
-.sidebar-header {
+/* ========================================================================== */
+/* 🎛️ 상단 통합 설정 박스 (Top Filter Box) */
+/* ========================================================================== */
+.top-filter-panel {
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: var(--shadow-main);
+}
+
+.panel-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--border-glass);
 }
 
-.sidebar-title {
-  font-size: 16px;
-  font-weight: 800;
+.panel-title {
+  font-size: 18px;
+  font-weight: 900;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  color: var(--text-primary);
 }
 
 .btn-reset {
   background: transparent;
-  border: none;
+  border: 1px solid var(--border-color);
   color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  transition: color 0.15s;
+  transition: all 0.15s;
 }
 
 .btn-reset:hover {
   color: var(--accent-pink);
-  text-decoration: underline;
+  border-color: var(--accent-pink);
 }
 
-.filter-group {
+/* 1. 플랫폼 선택 바 */
+.filter-row {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.row-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.platform-chips-container {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.filter-label {
+.platform-chip-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  cursor: pointer;
   font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+  transition: all 0.15s;
+}
+
+.platform-chip-label:hover {
+  border-color: var(--text-highlight);
+}
+
+.platform-chip-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-pink);
+  cursor: pointer;
+}
+
+/* 2. 키워드 입력 & 자동완성 추천창 */
+.keyword-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keyword-input-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.keyword-input-box:focus-within {
+  border-color: var(--accent-pink);
+  box-shadow: 0 0 14px rgba(254, 44, 85, 0.3);
+}
+
+.search-icon {
+  font-size: 18px;
+  margin-right: 10px;
+  color: var(--text-muted);
+}
+
+.keyword-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 15px;
   font-weight: 700;
-  color: var(--text-light);
+  color: var(--text-primary);
+}
+
+.keyword-input-field::placeholder {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.btn-clear-keyword {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+/* 💡 자동완성 추천창 드롭다운 */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 6px;
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-main);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 50;
+  display: none;
+}
+
+.autocomplete-dropdown.active {
+  display: block;
+}
+
+.dropdown-header {
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.filter-val-badge {
+.dropdown-item:hover {
+  background: rgba(254, 44, 85, 0.15);
+  color: var(--accent-pink);
+}
+
+.dropdown-item-meta {
   font-size: 11px;
-  font-weight: 800;
-  color: var(--accent-cyan);
-  background: rgba(37, 244, 238, 0.12);
+  color: var(--text-muted);
+  background: var(--bg-input);
   padding: 2px 8px;
   border-radius: var(--radius-full);
 }
 
-/* 6대 플랫폼 체크박스 그리드 */
-.platform-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.platform-checkbox-label {
+/* 빠른 추천 키워드 칩 */
+.quick-keywords-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  transition: all 0.15s;
-}
-
-.platform-checkbox-label:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.platform-checkbox-label input[type="checkbox"] {
-  accent-color: var(--accent-pink);
-}
-
-/* 다중 키워드 태그 입력기 */
-.tag-input-box {
-  display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-md);
-  padding: 8px 10px;
-  min-height: 44px;
+  font-size: 12px;
 }
 
-.tag-input-box:focus-within {
-  border-color: var(--border-glow);
-  box-shadow: 0 0 14px rgba(254, 44, 85, 0.25);
-}
-
-.active-tag {
-  background: linear-gradient(135deg, rgba(254, 44, 85, 0.3) 0%, rgba(255, 107, 139, 0.3) 100%);
-  border: 1px solid var(--accent-pink);
-  color: #FFFFFF;
-  font-size: 11px;
+.quick-label {
+  color: var(--text-muted);
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  margin-right: 4px;
 }
 
-.active-tag .tag-remove {
-  cursor: pointer;
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.active-tag .tag-remove:hover {
-  opacity: 1;
-  color: #FF0055;
-}
-
-.tag-input-field {
-  flex: 1;
-  min-width: 120px;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #FFFFFF;
+.chip-keyword {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   font-size: 12px;
-}
-
-.tag-input-field::placeholder {
-  color: var(--text-dim);
-}
-
-.tag-mode-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.tag-mode-toggle label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* 추천 키워드 빠른 선택 */
-.quick-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.chip-quick {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #CBD5E1;
-  font-size: 10.5px;
-  padding: 3px 8px;
+  font-weight: 700;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.chip-quick:hover {
-  background: rgba(37, 244, 238, 0.15);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
-}
-
-/* 슬라이더 컨트롤러 */
-.range-slider {
-  width: 100%;
-  accent-color: var(--accent-pink);
-  height: 5px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.15);
-  outline: none;
-  cursor: pointer;
+.chip-keyword:hover {
+  background: var(--text-highlight);
+  color: #FFFFFF;
+  border-color: var(--text-highlight);
 }
 
 /* ========================================================================== */
-/* 📊 우측 메인 콘텐츠 대시보드 */
+/* 🔢 3, 4, 5, 6번 숫자 직접 입력창 그리드 (막대 슬라이더 제거) */
 /* ========================================================================== */
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-/* 요약 통계 3대 지표 카드 */
-.metrics-row {
+.numeric-filters-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
 }
 
-.metric-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-lg);
-  padding: 20px 24px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  box-shadow: var(--shadow-lg);
-  position: relative;
-  overflow: hidden;
-}
-
-.metric-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(to bottom, var(--accent-pink), var(--accent-cyan));
-}
-
-.metric-icon {
-  font-size: 32px;
-  background: rgba(255, 255, 255, 0.06);
-  width: 58px;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.numeric-box {
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-glass);
-}
-
-.metric-info {
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
+  transition: border-color 0.2s;
 }
 
-.metric-title {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 600;
+.numeric-box:focus-within {
+  border-color: var(--text-highlight);
 }
 
-.metric-value {
-  font-size: 26px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-}
-
-.metric-sub {
-  font-size: 11px;
-  color: var(--accent-emerald);
-}
-
-/* 툴바 컨트롤러 (정렬, 뷰 모드, 내보내기) */
-.toolbar {
+.numeric-label {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-md);
-  padding: 12px 20px;
 }
 
-.toolbar-left {
+.numeric-unit {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-highlight);
+}
+
+.numeric-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--text-primary);
+  outline: none;
+  font-family: Consolas, -apple-system, sans-serif;
+}
+
+.numeric-input:focus {
+  border-color: var(--accent-pink);
+}
+
+.numeric-hint {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ========================================================================== */
+/* 🔍 [조건에 맞는 채널 탐색하기] 메인 액션 버튼 */
+/* ========================================================================== */
+.search-trigger-area {
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.btn-search-trigger {
+  width: 100%;
+  max-width: 580px;
+  background: linear-gradient(135deg, #FE2C55 0%, #FF5722 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(254, 44, 85, 0.45);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 10px;
 }
 
-.result-count {
-  font-size: 14px;
-  font-weight: 800;
+.btn-search-trigger:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(254, 44, 85, 0.6);
 }
 
-.result-count span {
+.btn-search-trigger:active {
+  transform: translateY(0);
+}
+
+/* ========================================================================== */
+/* 📊 탐색 결과 섹션 */
+/* ========================================================================== */
+.results-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 툴바 컨트롤러 */
+.results-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 22px;
+  box-shadow: var(--shadow-main);
+}
+
+.toolbar-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.result-badge {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+.result-badge span {
   color: var(--accent-pink);
 }
 
-.toolbar-right {
+.avg-ratio-badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent-fire);
+  background: rgba(255, 69, 0, 0.12);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 69, 0, 0.3);
+}
+
+.toolbar-controls {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .select-sort {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-glass);
-  color: #FFFFFF;
-  padding: 7px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 14px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
   outline: none;
   cursor: pointer;
 }
 
-.view-toggle-btns {
+.view-toggle-group {
   display: flex;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border-glass);
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -517,230 +603,219 @@ body {
   border: none;
   color: var(--text-muted);
   font-size: 13px;
-  padding: 6px 12px;
+  font-weight: 800;
+  padding: 8px 14px;
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .btn-view-toggle.active {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--accent-pink);
   color: #FFFFFF;
 }
 
 /* ========================================================================== */
-/* 🏆 채널 카드 그리드 뷰 */
+/* 🏆 고대비 채널 카드 그리드 (글자/숫자 선명화) */
 /* ========================================================================== */
 .channels-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
 }
 
-.channel-card-item {
+.channel-card {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 20px 22px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 16px;
+  box-shadow: var(--shadow-main);
+  transition: all 0.2s;
   position: relative;
-  overflow: hidden;
 }
 
-.channel-card-item:hover {
+.channel-card:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+  border-color: var(--text-highlight);
+  transform: translateY(-3px);
 }
 
-.card-header-row {
+.card-top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
 }
 
-.avatar-and-info {
+.channel-profile-row {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .channel-avatar {
-  width: 46px;
-  height: 46px;
+  font-size: 26px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border-glass);
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
 }
 
-.card-title-col {
+.channel-titles {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
-.card-channel-name {
-  font-size: 15px;
-  font-weight: 800;
-  color: #FFFFFF;
+/* 채널명 고대비 굵은 글씨 */
+.channel-name {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--text-primary);
 }
 
-.card-channel-handle {
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-.platform-badge-chip {
-  font-size: 11px;
+.channel-handle {
+  font-size: 12px;
   font-weight: 700;
+  color: var(--text-highlight);
+}
+
+.platform-badge {
+  font-size: 11px;
+  font-weight: 800;
   padding: 4px 10px;
   border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border-glass);
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
-/* 🔥 구독자 대비 조회수 비율 게이지 바 (핵심 지표) */
-.ratio-gauge-box {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* 🔥 구독자 대비 조회수 게이지 (초고대비) */
+.ratio-box {
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.gauge-header {
+.ratio-label-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
 }
 
-.gauge-title {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--text-muted);
+.ratio-label-text {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-secondary);
 }
 
-.gauge-percent {
-  font-size: 18px;
+.ratio-value-text {
+  font-size: 22px;
   font-weight: 900;
-  letter-spacing: -0.3px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  color: var(--accent-fire);
+  letter-spacing: -0.5px;
 }
 
-.gauge-percent.high-fire {
-  color: #FF5722;
-  filter: drop-shadow(0 0 8px rgba(255, 87, 34, 0.6));
-}
-
-.gauge-percent.mid-fire {
-  color: #F59E0B;
-}
-
-.gauge-percent.normal {
-  color: #10B981;
-}
-
-.gauge-track {
+.ratio-bar-track {
   width: 100%;
-  height: 8px;
+  height: 10px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  border-radius: 5px;
   overflow: hidden;
-  position: relative;
 }
 
-.gauge-fill {
+.ratio-bar-fill {
   height: 100%;
-  border-radius: 4px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 5px;
+  background: linear-gradient(90deg, #FE2C55, #FF5722);
+  transition: width 0.6s ease;
 }
 
-/* 4대 정량 지표 칩 그리드 */
-.metrics-chips-grid {
+/* 4대 정량 지표 (숫자 선명한 화이트/블루) */
+.metrics-grid-card {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 10px;
 }
 
-.metric-chip-col {
+.metric-col {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   text-align: center;
 }
 
-.chip-label {
-  font-size: 10px;
-  color: var(--text-dim);
-  font-weight: 600;
-}
-
-.chip-val {
-  font-size: 13px;
+.col-label {
+  font-size: 11px;
   font-weight: 800;
-  color: #FFFFFF;
+  color: var(--text-muted);
 }
 
-/* 떡상 비결 설명 */
-.highlight-text-box {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #CBD5E1;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 10px 12px;
+.col-val {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+.col-val.views {
+  color: var(--text-highlight);
+}
+
+/* 떡상 비결 설명 (가독성 폰트) */
+.highlight-box {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px 14px;
   border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent-pink);
 }
 
-/* 태그 및 바로가기 */
-.card-bottom-row {
+/* 카드 하단 태그 & 바로가기 */
+.card-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  gap: 10px;
+  gap: 8px;
 }
 
-.channel-tag-chips {
+.tags-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 5px;
 }
 
-.tag-mini {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
+.tag-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
 }
 
 .btn-visit {
-  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
   color: #FFFFFF;
   text-decoration: none;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: var(--radius-sm);
   white-space: nowrap;
   transition: all 0.15s;
@@ -752,329 +827,254 @@ body {
 }
 
 /* ========================================================================== */
-/* 📋 데이터 테이블 뷰 (표 형태) */
+/* 📋 테이블 뷰 */
 /* ========================================================================== */
-.table-container {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
+.table-wrapper {
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-lg);
   overflow-x: auto;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-main);
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 13px;
+  font-size: 13.5px;
 }
 
 .data-table th {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--bg-input);
   color: var(--text-muted);
-  font-weight: 700;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border-glass);
+  font-weight: 800;
+  padding: 16px 20px;
+  border-bottom: 1.5px solid var(--border-color);
 }
 
 .data-table td {
-  padding: 14px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: #CBD5E1;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
 }
 
 .data-table tr:hover td {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-card-hover);
 }
 
-/* 빈 검색 결과 안내 */
-.empty-results {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 20px;
-  text-align: center;
-  color: var(--text-muted);
-}
-
-.empty-results-icon {
-  font-size: 48px;
-  margin-bottom: 14px;
-}
-
-/* ========================================================================== */
-/* ➕ 새 채널 등록 모달 */
-/* ========================================================================== */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: 1;
-  transition: opacity 0.2s;
-}
-
-.modal-backdrop.hidden {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.modal-box {
-  background: #111726;
-  border: 1px solid var(--border-glass);
+/* 검색 결과 없음 */
+.empty-box {
+  background: var(--bg-panel);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-lg);
-  width: 520px;
-  max-width: 90%;
-  padding: 28px;
+  padding: 60px 20px;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-}
-
-.modal-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.modal-header h3 {
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.btn-close-modal {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
   gap: 12px;
 }
 
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.empty-icon {
+  font-size: 48px;
 }
 
-.form-field.full-span {
-  grid-column: span 2;
+.empty-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
 }
 
-.form-field label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.form-input {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-glass);
-  color: #FFFFFF;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
+.empty-desc {
   font-size: 13px;
-  outline: none;
-}
-
-.form-input:focus {
-  border-color: var(--accent-pink);
+  color: var(--text-muted);
 }
 
 </style>
 </head>
 <body>
-  <!-- 1. 상단 네비게이션 바 -->
+  <!-- 1. 상단 네비게이션 헤더 -->
   <header class="navbar">
     <div class="brand">
       <span class="brand-logo">🚀</span>
       <div>
         <h1 class="brand-title">글로벌 숏폼 떡상 채널 정밀 분석기</h1>
-        <p class="brand-desc">도우인 · 틱톡 · 유튜브 쇼츠 · 샤오홍슈 · 인스타 릴스 · 스레드 멀티 매트릭스 탐색</p>
+        <p class="brand-desc">도우인 · 틱톡 · 유튜브 쇼츠 · 샤오홍슈 · 인스타 릴스 · 스레드</p>
       </div>
     </div>
     <div class="header-tools">
-      <button id="btnOpenAddModal" class="btn-action">
-        <span>➕</span> 채널 직접 등록
+      <!-- ☀️/🌙 테마 토글 버튼 (시스템 연동 + 수동 선택) -->
+      <button id="btnThemeToggle" class="btn-theme-toggle" title="화면 밝기 전환">
+        <span id="themeIcon">☀️</span>
+        <span id="themeText">밝은 모드</span>
       </button>
-      <button id="btnExportCsv" class="btn-action btn-primary">
+      <button id="btnExportCsv" class="btn-action btn-primary" title="엑셀로 다운로드">
         <span>📥</span> 엑셀(CSV) 저장
       </button>
     </div>
   </header>
 
   <!-- 2. 메인 컨테이너 -->
-  <div class="app-container">
-    <!-- 🎛️ 좌측 정밀 다중 필터 사이드바 -->
-    <aside class="filter-sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-title">
-          <span>🎛️</span> 정밀 다중 필터
+  <div class="main-wrapper">
+    <!-- 🎛️ 상단 통합 설정 패널 (Top Filter Box) -->
+    <section class="top-filter-panel">
+      <div class="panel-header-row">
+        <div class="panel-title">
+          <span>🎛️</span> 채널 발굴 조건 설정
         </div>
-        <button id="btnResetFilters" class="btn-reset">초기화 ↺</button>
+        <button id="btnResetFilters" class="btn-reset">설정 초기화 ↺</button>
       </div>
 
-      <!-- 1) 6대 플랫폼 선택 -->
-      <div class="filter-group">
-        <label class="filter-label">
-          <span>1. 탐색 플랫폼 선택</span>
+      <!-- 1. 탐색 플랫폼 선택 (유지) -->
+      <div class="filter-row">
+        <label class="row-label">
+          <span>1. 탐색 플랫폼 선택 (중복 체크)</span>
         </label>
-        <div class="platform-grid">
-          <label class="platform-checkbox-label">
+        <div class="platform-chips-container">
+          <label class="platform-chip-label">
             <input type="checkbox" class="platform-check" value="douyin" checked>
-            <span>🇨🇳 도우인</span>
+            <span>🇨🇳 도우인 (Douyin)</span>
           </label>
-          <label class="platform-checkbox-label">
+          <label class="platform-chip-label">
             <input type="checkbox" class="platform-check" value="tiktok" checked>
-            <span>🌍 틱톡</span>
+            <span>🌍 틱톡 (TikTok)</span>
           </label>
-          <label class="platform-checkbox-label">
+          <label class="platform-chip-label">
             <input type="checkbox" class="platform-check" value="youtube" checked>
-            <span>▶️ 유튜브</span>
+            <span>▶️ 유튜브 (YouTube)</span>
           </label>
-          <label class="platform-checkbox-label">
+          <label class="platform-chip-label">
             <input type="checkbox" class="platform-check" value="xiaohongshu" checked>
-            <span>📕 샤오홍슈</span>
+            <span>📕 샤오홍슈 (小红书)</span>
           </label>
-          <label class="platform-checkbox-label">
+          <label class="platform-chip-label">
             <input type="checkbox" class="platform-check" value="instagram" checked>
-            <span>📸 인스타</span>
+            <span>📸 인스타그램 (Reels)</span>
           </label>
-          <label class="platform-checkbox-label">
+          <label class="platform-chip-label">
             <input type="checkbox" class="platform-check" value="threads" checked>
-            <span>🧵 스레드</span>
+            <span>🧵 스레드 (Threads)</span>
           </label>
         </div>
       </div>
 
-      <!-- 2) 복수 키워드 중복 탐색 (Multi-Tag Search) -->
-      <div class="filter-group">
-        <label class="filter-label">
-          <span>2. 키워드 중복 탐색</span>
-          <span class="filter-val-badge">태그 입력 후 엔터</span>
+      <!-- 2. 키워드 중복 탐색 (태그 없이 자연스러운 텍스트 입력 + 자동완성 추천창) -->
+      <div class="filter-row">
+        <label class="row-label">
+          <span>2. 키워드 중복 탐색 (글자 입력 시 아래에 연관 추천 키워드가 자동으로 뜹니다)</span>
         </label>
-        <div class="tag-input-box" id="tagContainer">
-          <input type="text" id="tagInput" class="tag-input-field" placeholder="키워드 입력 (엔터로 추가)...">
+        <div class="keyword-input-wrapper">
+          <div class="keyword-input-box">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="keywordInput" 
+              class="keyword-input-field" 
+              placeholder="탐색할 키워드를 적어보세요 (예: 뷰티, 리프팅, 올리브영, 홈케어, 가젯...)" 
+              autocomplete="off"
+            />
+            <button id="btnClearKeyword" class="btn-clear-keyword" title="지우기" style="display: none;">&times;</button>
+          </div>
+
+          <!-- 💡 실시간 자동완성 추천창 -->
+          <div id="autocompleteDropdown" class="autocomplete-dropdown">
+            <div class="dropdown-header">💡 추천 연관 키워드 (클릭하면 바로 추가됩니다)</div>
+            <div id="dropdownItemsList"></div>
+          </div>
         </div>
-        <!-- AND / OR 모드 선택 -->
-        <div class="tag-mode-toggle">
-          <span>일치 조건:</span>
-          <label>
-            <input type="radio" name="tagMode" value="OR" checked> 하나라도 일치 (OR)
+
+        <!-- 빠른 선택 추천 키워드 -->
+        <div class="quick-keywords-row">
+          <span class="quick-label">추천 키워드:</span>
+          <button class="chip-keyword" data-kw="리프팅">#리프팅</button>
+          <button class="chip-keyword" data-kw="뷰티">#뷰티</button>
+          <button class="chip-keyword" data-kw="올리브영">#올리브영</button>
+          <button class="chip-keyword" data-kw="홈케어">#홈케어</button>
+          <button class="chip-keyword" data-kw="생활꿀템">#생활꿀템</button>
+          <button class="chip-keyword" data-kw="가성비">#가성비</button>
+          <button class="chip-keyword" data-kw="쿠팡소싱">#쿠팡소싱</button>
+          <button class="chip-keyword" data-kw="비포애프터">#비포애프터</button>
+          <button class="chip-keyword" data-kw="AI자동화">#AI자동화</button>
+        </div>
+      </div>
+
+      <!-- 3, 4, 5, 6번 + 탐색채널 개수 (숫자 직접 타이핑 입력창) -->
+      <div class="numeric-filters-grid">
+        <!-- 3. 최소 떡상 비율 -->
+        <div class="numeric-box">
+          <label class="numeric-label">
+            <span>3. 최소 떡상 비율</span>
+            <span class="numeric-unit">% 이상</span>
           </label>
-          <label>
-            <input type="radio" name="tagMode" value="AND"> 모두 일치 (AND)
+          <input type="number" id="inputMinRatio" class="numeric-input" value="100" min="0" step="50" placeholder="100">
+          <span class="numeric-hint">🔥 구독자 대비 조회수 배율</span>
+        </div>
+
+        <!-- 4. 최소 평균 조회수 -->
+        <div class="numeric-box">
+          <label class="numeric-label">
+            <span>4. 최소 평균 조회수</span>
+            <span class="numeric-unit">회 이상</span>
           </label>
+          <input type="number" id="inputMinViews" class="numeric-input" value="0" min="0" step="10000" placeholder="0">
+          <span class="numeric-hint">👁️ 영상 1편당 평균치</span>
         </div>
-        <!-- 추천 빠른 키워드 칩 -->
-        <div class="quick-tags">
-          <span class="chip-quick" data-tag="리프팅">#리프팅</span>
-          <span class="chip-quick" data-tag="뷰티">#뷰티</span>
-          <span class="chip-quick" data-tag="올리브영">#올리브영</span>
-          <span class="chip-quick" data-tag="홈케어">#홈케어</span>
-          <span class="chip-quick" data-tag="생활꿀템">#생활꿀템</span>
-          <span class="chip-quick" data-tag="가성비">#가성비</span>
-          <span class="chip-quick" data-tag="쿠팡소싱">#쿠팡소싱</span>
-          <span class="chip-quick" data-tag="AI자동화">#AI자동화</span>
-          <span class="chip-quick" data-tag="비포애프터">#비포애프터</span>
+
+        <!-- 5. 최소 구독자 수 -->
+        <div class="numeric-box">
+          <label class="numeric-label">
+            <span>5. 최소 구독자 수</span>
+            <span class="numeric-unit">명 이상</span>
+          </label>
+          <input type="number" id="inputMinSubs" class="numeric-input" value="0" min="0" step="5000" placeholder="0">
+          <span class="numeric-hint">👥 채널 팔로워 규모</span>
+        </div>
+
+        <!-- 6. 최소 좋아요 수 -->
+        <div class="numeric-box">
+          <label class="numeric-label">
+            <span>6. 최소 좋아요 수</span>
+            <span class="numeric-unit">개 이상</span>
+          </label>
+          <input type="number" id="inputMinLikes" class="numeric-input" value="0" min="0" step="1000" placeholder="0">
+          <span class="numeric-hint">❤️ 영상 평균 좋아요</span>
+        </div>
+
+        <!-- 7. 탐색 채널 개수 (신규) -->
+        <div class="numeric-box" style="border-color: var(--text-highlight);">
+          <label class="numeric-label">
+            <span>7. 탐색 채널 개수</span>
+            <span class="numeric-unit">개 표시</span>
+          </label>
+          <input type="number" id="inputLimitCount" class="numeric-input" value="20" min="1" max="100" placeholder="20">
+          <span class="numeric-hint">🎯 화면에 노출할 최대 개수</span>
         </div>
       </div>
 
-      <!-- 3) 🔥 구독자 대비 조회수 비율 (떡상 지수) -->
-      <div class="filter-group">
-        <label class="filter-label">
-          <span>🔥 3. 구독자 대비 조회수 비율</span>
-          <span id="valRatio" class="filter-val-badge" style="color: #FF5722; background: rgba(255, 87, 34, 0.15);">100% 이상</span>
-        </label>
-        <input type="range" id="sliderRatio" class="range-slider" min="0" max="1500" step="50" value="100">
-        <small style="color: var(--text-dim); font-size: 10.5px;">
-          💡 300% 이상은 대박, 1000% 이상은 알고리즘 폭발 채널입니다.
-        </small>
+      <!-- 🔍 [조건에 맞는 채널 탐색하기] 메인 탐색 실행 버튼 -->
+      <div class="search-trigger-area">
+        <button id="btnSearchTrigger" class="btn-search-trigger">
+          <span>🔍</span> 조건에 맞는 숏폼 채널 탐색하기
+        </button>
       </div>
+    </section>
 
-      <!-- 4) 👁️ 최소 평균 조회수 -->
-      <div class="filter-group">
-        <label class="filter-label">
-          <span>👁️ 4. 최소 평균 조회수</span>
-          <span id="valViews" class="filter-val-badge">0회 이상</span>
-        </label>
-        <input type="range" id="sliderViews" class="range-slider" min="0" max="5000000" step="100000" value="0">
-      </div>
-
-      <!-- 5) 👥 최소 구독자 수 -->
-      <div class="filter-group">
-        <label class="filter-label">
-          <span>👥 5. 최소 구독자 수</span>
-          <span id="valSubs" class="filter-val-badge">0명 이상</span>
-        </label>
-        <input type="range" id="sliderSubs" class="range-slider" min="0" max="2000000" step="50000" value="0">
-      </div>
-
-      <!-- 6) ❤️ 최소 좋아요 수 -->
-      <div class="filter-group">
-        <label class="filter-label">
-          <span>❤️ 6. 최소 좋아요 수</span>
-          <span id="valLikes" class="filter-val-badge">0개 이상</span>
-        </label>
-        <input type="range" id="sliderLikes" class="range-slider" min="0" max="500000" step="20000" value="0">
-      </div>
-    </aside>
-
-    <!-- 📊 우측 메인 콘텐츠 대시보드 -->
-    <main class="main-content">
-      <!-- 상단 요약 통계 3대 지표 카드 -->
-      <section class="metrics-row">
-        <div class="metric-card">
-          <div class="metric-icon">🎯</div>
-          <div class="metric-info">
-            <span class="metric-title">조건 일치 발굴 채널</span>
-            <span id="statTotalChannels" class="metric-value">0개</span>
-            <span class="metric-sub">실시간 조건 부합 채널 수</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon">🔥</div>
-          <div class="metric-info">
-            <span class="metric-title">발굴 채널 평균 떡상 지수</span>
-            <span id="statAvgRatio" class="metric-value" style="color: #FF5722;">0%</span>
-            <span class="metric-sub">구독자 대비 평균 조회수 배율</span>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-icon">👑</div>
-          <div class="metric-info">
-            <span class="metric-title">현재 최고 떡상 채널</span>
-            <span id="statTopChannel" class="metric-value" style="font-size: 18px;">-</span>
-            <span id="statTopSub" class="metric-sub" style="color: #25F4EE;">-</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- 툴바 (결과 카운트, 정렬 옵션, 카드/테이블 뷰 토글) -->
-      <section class="toolbar">
-        <div class="toolbar-left">
-          <div class="result-count">
+    <!-- 📊 탐색 결과 섹션 -->
+    <section class="results-section">
+      <!-- 결과 툴바 -->
+      <div class="results-toolbar">
+        <div class="toolbar-info">
+          <div class="result-badge">
             발굴 결과: <span id="resultCount">0</span>개 채널
           </div>
+          <div id="avgRatioBadge" class="avg-ratio-badge">
+            🔥 평균 떡상 지수: <strong id="avgRatioVal">0%</strong>
+          </div>
         </div>
 
-        <div class="toolbar-right">
-          <label style="font-size: 12px; color: var(--text-muted); font-weight: 700;">정렬 기준:</label>
+        <div class="toolbar-controls">
+          <label style="font-size: 13px; font-weight: 800; color: var(--text-muted);">정렬 기준:</label>
           <select id="selectSort" class="select-sort">
             <option value="ratio_desc">🔥 떡상 비율 높은 순 (추천)</option>
             <option value="views_desc">👁️ 조회수 많은 순</option>
@@ -1083,20 +1083,20 @@ body {
             <option value="likes_desc">❤️ 좋아요 많은 순</option>
           </select>
 
-          <div class="view-toggle-btns">
+          <div class="view-toggle-group">
             <button id="btnViewCard" class="btn-view-toggle active" title="카드 뷰">🎴 카드형</button>
             <button id="btnViewTable" class="btn-view-toggle" title="테이블 뷰">📋 표형태</button>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- 채널 카드 그리드 (카드 뷰) -->
-      <section id="channelsGrid" class="channels-grid">
+      <div id="channelsGrid" class="channels-grid">
         <!-- JS로 동적 렌더링 -->
-      </section>
+      </div>
 
       <!-- 채널 데이터 테이블 (테이블 뷰) -->
-      <section id="tableContainer" class="table-container" style="display: none;">
+      <div id="tableWrapper" class="table-wrapper" style="display: none;">
         <table class="data-table">
           <thead>
             <tr>
@@ -1108,98 +1108,22 @@ body {
               <th>🔥 떡상비율</th>
               <th>좋아요</th>
               <th>댓글</th>
-              <th>링크</th>
+              <th>채널 바로가기</th>
             </tr>
           </thead>
           <tbody id="tableBody">
             <!-- JS로 동적 렌더링 -->
           </tbody>
         </table>
-      </section>
+      </div>
 
       <!-- 검색 결과 없음 안내 -->
-      <div id="emptyResults" class="empty-results" style="display: none;">
-        <span class="empty-results-icon">🔍</span>
-        <h3>조건에 일치하는 채널이 없습니다</h3>
-        <p style="margin-top: 6px; font-size: 13px;">키워드 태그를 줄이거나 좌측 슬라이더 수치를 낮춰보세요.</p>
+      <div id="emptyBox" class="empty-box" style="display: none;">
+        <span class="empty-icon">🔍</span>
+        <h3 class="empty-title">조건에 일치하는 채널이 없습니다</h3>
+        <p class="empty-desc">키워드를 줄이거나 상단 숫자 수치(조회수, 떡상비율 등)를 낮추고 다시 [탐색하기]를 눌러보세요.</p>
       </div>
-    </main>
-  </div>
-
-  <!-- ➕ 새 채널 직접 등록 모달 -->
-  <div id="addModal" class="modal-backdrop hidden">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>➕ 새로운 벤치마킹 채널 등록</h3>
-        <button id="btnCloseModal" class="btn-close-modal">&times;</button>
-      </div>
-
-      <form id="formAddChannel">
-        <div class="form-grid">
-          <div class="form-field">
-            <label>채널명 *</label>
-            <input type="text" id="newChName" class="form-input" placeholder="예: 뷰티연구소" required>
-          </div>
-          <div class="form-field">
-            <label>핸들/계정 ID</label>
-            <input type="text" id="newChHandle" class="form-input" placeholder="예: @beauty_lab">
-          </div>
-
-          <div class="form-field">
-            <label>플랫폼 *</label>
-            <select id="newChPlatform" class="form-input" required>
-              <option value="douyin">🇨🇳 도우인 (Douyin)</option>
-              <option value="tiktok">🌍 틱톡 (TikTok)</option>
-              <option value="youtube">▶️ 유튜브 (YouTube)</option>
-              <option value="xiaohongshu">📕 샤오홍슈 (Xiaohongshu)</option>
-              <option value="instagram">📸 인스타그램 (Instagram)</option>
-              <option value="threads">🧵 스레드 (Threads)</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>카테고리</label>
-            <input type="text" id="newChCategory" class="form-input" placeholder="예: 뷰티 / 홈케어">
-          </div>
-
-          <div class="form-field">
-            <label>구독자 수 *</label>
-            <input type="number" id="newChSubs" class="form-input" placeholder="예: 50000" required>
-          </div>
-          <div class="form-field">
-            <label>평균 조회수 *</label>
-            <input type="number" id="newChViews" class="form-input" placeholder="예: 1200000" required>
-          </div>
-
-          <div class="form-field">
-            <label>평균 좋아요 수</label>
-            <input type="number" id="newChLikes" class="form-input" placeholder="예: 80000">
-          </div>
-          <div class="form-field">
-            <label>평균 댓글 수</label>
-            <input type="number" id="newChComments" class="form-input" placeholder="예: 3500">
-          </div>
-
-          <div class="form-field full-span">
-            <label>태그 (쉼표로 구분)</label>
-            <input type="text" id="newChTags" class="form-input" placeholder="예: 뷰티, 리프팅, 올리브영, 꿀템">
-          </div>
-
-          <div class="form-field full-span">
-            <label>채널/대표 영상 URL</label>
-            <input type="url" id="newChUrl" class="form-input" placeholder="https://...">
-          </div>
-
-          <div class="form-field full-span">
-            <label>핵심 떡상 비결 요약</label>
-            <textarea id="newChHighlight" class="form-input" style="height: 60px; resize: none;" placeholder="이 채널의 떡상 포인트와 벤치마킹할 연출 기법"></textarea>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-action btn-primary" style="width: 100%; justify-content: center; margin-top: 14px;">
-          채널 등록 및 분석기에 추가
-        </button>
-      </form>
-    </div>
+    </section>
   </div>
 
   <script>
@@ -1583,278 +1507,295 @@ const INITIAL_CHANNELS_DB = [
 
 ﻿// ============================================================================
 // ⚡ trend_analytics_app/app.js
-// 글로벌 숏폼 떡상 채널 정밀 다중 필터 & 통계 분석 엔진
+// 글로벌 숏폼 떡상 채널 정밀 분석기 - 상단 박스형 필터, 자동완성, 테마 연동 엔진
 // ============================================================================
 
 // DB 로드 완료
 
 // ============================================================================
-// 1. 상태 관리 (State)
+// 1. 상태 변수
 // ============================================================================
 let allChannels = [];
-let activeTags = ["리프팅"]; // 기본 탐색 태그
-let tagSearchMode = "OR"; // "AND" 또는 "OR"
-let currentViewMode = "card"; // "card" 또는 "table"
+let currentViewMode = "card";
 let currentSort = "ratio_desc";
 
-// 필터 상태
-const filterState = {
-  platforms: {
-    douyin: true,
-    tiktok: true,
-    youtube: true,
-    xiaohongshu: true,
-    instagram: true,
-    threads: true
-  },
-  minSubs: 0,
-  minViews: 0,
-  minLikes: 0,
-  minComments: 0,
-  minRatio: 100 // 최소 100% (구독자 대비 1배 이상)
-};
+// 키워드 자동완성 풀(Pool)
+let keywordPool = [];
 
 // DOM 요소 참조
-const platformCheckboxes = document.querySelectorAll(".platform-check");
-const tagContainer = document.getElementById("tagContainer");
-const tagInput = document.getElementById("tagInput");
-const tagModeRadios = document.querySelectorAll("input[name='tagMode']");
-const quickTagChips = document.querySelectorAll(".chip-quick");
+const htmlRoot = document.documentElement;
+const btnThemeToggle = document.getElementById("btnThemeToggle");
+const themeIcon = document.getElementById("themeIcon");
+const themeText = document.getElementById("themeText");
 
-// 슬라이더 및 인풋
-const sliderRatio = document.getElementById("sliderRatio");
-const valRatio = document.getElementById("valRatio");
-const sliderViews = document.getElementById("sliderViews");
-const valViews = document.getElementById("valViews");
-const sliderSubs = document.getElementById("sliderSubs");
-const valSubs = document.getElementById("valSubs");
-const sliderLikes = document.getElementById("sliderLikes");
-const valLikes = document.getElementById("valLikes");
+const platformCheckboxes = document.querySelectorAll(".platform-check");
+const keywordInput = document.getElementById("keywordInput");
+const btnClearKeyword = document.getElementById("btnClearKeyword");
+const autocompleteDropdown = document.getElementById("autocompleteDropdown");
+const dropdownItemsList = document.getElementById("dropdownItemsList");
+const quickKeywords = document.querySelectorAll(".chip-keyword");
+
+const inputMinRatio = document.getElementById("inputMinRatio");
+const inputMinViews = document.getElementById("inputMinViews");
+const inputMinSubs = document.getElementById("inputMinSubs");
+const inputMinLikes = document.getElementById("inputMinLikes");
+const inputLimitCount = document.getElementById("inputLimitCount");
+
+const btnSearchTrigger = document.getElementById("btnSearchTrigger");
 const btnResetFilters = document.getElementById("btnResetFilters");
 
-// 상단 요약 통계
-const statTotalChannels = document.getElementById("statTotalChannels");
-const statAvgRatio = document.getElementById("statAvgRatio");
-const statTopChannel = document.getElementById("statTopChannel");
-const statTopSub = document.getElementById("statTopSub");
-
-// 툴바 컨트롤러
-const resultCountEl = document.getElementById("resultCount");
+const resultCount = document.getElementById("resultCount");
+const avgRatioVal = document.getElementById("avgRatioVal");
 const selectSort = document.getElementById("selectSort");
 const btnViewCard = document.getElementById("btnViewCard");
 const btnViewTable = document.getElementById("btnViewTable");
 const btnExportCsv = document.getElementById("btnExportCsv");
-const btnOpenAddModal = document.getElementById("btnOpenAddModal");
 
-// 리스트 뷰 영역
 const channelsGrid = document.getElementById("channelsGrid");
-const tableContainer = document.getElementById("tableContainer");
+const tableWrapper = document.getElementById("tableWrapper");
 const tableBody = document.getElementById("tableBody");
-const emptyResults = document.getElementById("emptyResults");
-
-// 모달 요소
-const addModal = document.getElementById("addModal");
-const btnCloseModal = document.getElementById("btnCloseModal");
-const formAddChannel = document.getElementById("formAddChannel");
+const emptyBox = document.getElementById("emptyBox");
 
 // ============================================================================
 // 2. 초기화 (Init)
 // ============================================================================
 document.addEventListener("DOMContentLoaded", () => {
-  // 로컬 스토리지에 저장된 커스텀 채널 로드
-  const savedCustom = localStorage.getItem("custom_channels");
-  const customChannels = savedCustom ? JSON.parse(savedCustom) : [];
+  // 1) 테마 초기화 (시스템 밝기 감지 + 저장된 설정 로드)
+  initTheme();
 
-  // 초기 DB와 커스텀 채널 병합 및 떡상 비율 계산
-  allChannels = [...INITIAL_CHANNELS_DB, ...customChannels].map((ch) => {
+  // 2) 채널 DB 로드 및 떡상 비율 계산
+  allChannels = INITIAL_CHANNELS_DB.map((ch) => {
     const ratio = ch.subscribers > 0 ? Math.round((ch.avgViews / ch.subscribers) * 100) : 0;
     return { ...ch, ratio };
   });
 
-  // 이벤트 리스너 바인딩
+  // 3) 추천 키워드 풀 구축
+  buildKeywordPool();
+
+  // 4) 이벤트 리스너 등록
   bindEvents();
 
-  // 초기 렌더링
-  renderTags();
-  applyFiltersAndRender();
+  // 5) 초기 1회 탐색 렌더링
+  executeSearch();
 });
 
 // ============================================================================
-// 3. 이벤트 리스너 바인딩
+// 3. 테마 관리 (시스템 밝기 연동 + 수동 토글)
 // ============================================================================
-function bindEvents() {
-  // 1) 플랫폼 체크박스 변경
-  platformCheckboxes.forEach((cb) => {
-    cb.addEventListener("change", (e) => {
-      filterState.platforms[e.target.value] = e.target.checked;
-      applyFiltersAndRender();
-    });
-  });
+function initTheme() {
+  const savedTheme = localStorage.getItem("app_theme");
 
-  // 2) 태그 입력 (Enter 또는 쉼표)
-  tagInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      addTagFromInput();
+  if (savedTheme) {
+    setTheme(savedTheme);
+  } else {
+    // 시스템 OS 밝기 설정 감지
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setTheme(prefersDark ? "dark" : "light");
+  }
+
+  // 시스템 밝기 변경 실시간 리스너
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    if (!localStorage.getItem("app_theme")) {
+      setTheme(e.matches ? "dark" : "light");
     }
   });
 
-  // 3) 태그 검색 모드 (AND / OR)
-  tagModeRadios.forEach((r) => {
-    r.addEventListener("change", (e) => {
-      tagSearchMode = e.target.value;
-      applyFiltersAndRender();
-    });
+  // 테마 토글 버튼 클릭
+  btnThemeToggle.addEventListener("click", () => {
+    const currentTheme = htmlRoot.getAttribute("data-theme");
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("app_theme", nextTheme);
   });
-
-  // 4) 추천 빠른 태그 클릭
-  quickTagChips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const tagText = chip.dataset.tag;
-      if (!activeTags.includes(tagText)) {
-        activeTags.push(tagText);
-        renderTags();
-        applyFiltersAndRender();
-      }
-    });
-  });
-
-  // 5) 슬라이더 컨트롤러 (떡상 비율, 조회수, 구독자, 좋아요)
-  sliderRatio.addEventListener("input", (e) => {
-    const val = Number(e.target.value);
-    filterState.minRatio = val;
-    valRatio.textContent = `${val}% 이상`;
-    applyFiltersAndRender();
-  });
-
-  sliderViews.addEventListener("input", (e) => {
-    const val = Number(e.target.value);
-    filterState.minViews = val;
-    valViews.textContent = formatCompactNumber(val) + "회 이상";
-    applyFiltersAndRender();
-  });
-
-  sliderSubs.addEventListener("input", (e) => {
-    const val = Number(e.target.value);
-    filterState.minSubs = val;
-    valSubs.textContent = formatCompactNumber(val) + "명 이상";
-    applyFiltersAndRender();
-  });
-
-  sliderLikes.addEventListener("input", (e) => {
-    const val = Number(e.target.value);
-    filterState.minLikes = val;
-    valLikes.textContent = formatCompactNumber(val) + "개 이상";
-    applyFiltersAndRender();
-  });
-
-  // 6) 필터 초기화
-  btnResetFilters.addEventListener("click", resetAllFilters);
-
-  // 7) 정렬 변경
-  selectSort.addEventListener("change", (e) => {
-    currentSort = e.target.value;
-    applyFiltersAndRender();
-  });
-
-  // 8) 뷰 전환 (카드 vs 테이블)
-  btnViewCard.addEventListener("click", () => setViewMode("card"));
-  btnViewTable.addEventListener("click", () => setViewMode("table"));
-
-  // 9) CSV 엑셀 내보내기
-  btnExportCsv.addEventListener("click", exportToCsv);
-
-  // 10) 새 채널 등록 모달
-  btnOpenAddModal.addEventListener("click", () => addModal.classList.remove("hidden"));
-  btnCloseModal.addEventListener("click", () => addModal.classList.add("hidden"));
-  addModal.addEventListener("click", (e) => {
-    if (e.target === addModal) addModal.classList.add("hidden");
-  });
-
-  // 새 채널 제출
-  formAddChannel.addEventListener("submit", handleAddChannel);
 }
 
-// ============================================================================
-// 4. 태그 관리
-// ============================================================================
-function addTagFromInput() {
-  const val = tagInput.value.trim().replace(/^#/, "");
-  if (val && !activeTags.includes(val)) {
-    activeTags.push(val);
-    tagInput.value = "";
-    renderTags();
-    applyFiltersAndRender();
+function setTheme(theme) {
+  htmlRoot.setAttribute("data-theme", theme);
+  if (theme === "dark") {
+    themeIcon.textContent = "☀️";
+    themeText.textContent = "밝은 모드";
+  } else {
+    themeIcon.textContent = "🌙";
+    themeText.textContent = "다크 모드";
   }
 }
 
-function removeTag(tagToRemove) {
-  activeTags = activeTags.filter((t) => t !== tagToRemove);
-  renderTags();
-  applyFiltersAndRender();
+// ============================================================================
+// 4. 키워드 풀 구축 & 실시간 자동완성 추천
+// ============================================================================
+function buildKeywordPool() {
+  const set = new Set();
+  allChannels.forEach((ch) => {
+    ch.tags.forEach((t) => set.add(t));
+    set.add(ch.category);
+    // 주요 키워드 추출
+    if (ch.name) set.add(ch.name.split(" ")[0]);
+  });
+  keywordPool = Array.from(set).filter((k) => k && k.length >= 2);
 }
 
-function renderTags() {
-  tagContainer.querySelectorAll(".active-tag").forEach((el) => el.remove());
+function handleKeywordInput() {
+  const rawText = keywordInput.value;
+  btnClearKeyword.style.display = rawText ? "block" : "none";
 
-  activeTags.forEach((tag) => {
-    const tagEl = document.createElement("span");
-    tagEl.className = "active-tag";
-    tagEl.innerHTML = `
-      #${escapeHtml(tag)}
-      <span class="tag-remove" title="삭제">&times;</span>
+  if (!rawText.trim()) {
+    closeAutocomplete();
+    return;
+  }
+
+  // 쉼표로 구분된 마지막 단어 추출
+  const tokens = rawText.split(",").map((s) => s.trim());
+  const lastToken = tokens[tokens.length - 1].toLowerCase();
+
+  if (!lastToken) {
+    closeAutocomplete();
+    return;
+  }
+
+  // 매칭되는 키워드 필터링 (최대 7개)
+  const matches = keywordPool
+    .filter((kw) => kw.toLowerCase().includes(lastToken))
+    .slice(0, 7);
+
+  if (matches.length > 0) {
+    renderAutocomplete(matches, tokens);
+  } else {
+    closeAutocomplete();
+  }
+}
+
+function renderAutocomplete(matches, currentTokens) {
+  dropdownItemsList.innerHTML = "";
+
+  matches.forEach((kw) => {
+    const item = document.createElement("div");
+    item.className = "dropdown-item";
+    item.innerHTML = `
+      <span>💡 <strong>${escapeHtml(kw)}</strong></span>
+      <span class="dropdown-item-meta">추천 키워드</span>
     `;
-    tagEl.querySelector(".tag-remove").addEventListener("click", () => removeTag(tag));
-    tagContainer.insertBefore(tagEl, tagInput);
+
+    item.addEventListener("click", () => {
+      // 마지막 토큰을 클릭한 추천어로 교체
+      currentTokens[currentTokens.length - 1] = kw;
+      keywordInput.value = currentTokens.join(", ") + ", ";
+      keywordInput.focus();
+      closeAutocomplete();
+    });
+
+    dropdownItemsList.appendChild(item);
   });
+
+  autocompleteDropdown.classList.add("active");
 }
 
-function resetAllFilters() {
-  activeTags = [];
-  renderTags();
-
-  sliderRatio.value = 0;
-  filterState.minRatio = 0;
-  valRatio.textContent = "0% 이상";
-
-  sliderViews.value = 0;
-  filterState.minViews = 0;
-  valViews.textContent = "0회 이상";
-
-  sliderSubs.value = 0;
-  filterState.minSubs = 0;
-  valSubs.textContent = "0명 이상";
-
-  sliderLikes.value = 0;
-  filterState.minLikes = 0;
-  valLikes.textContent = "0개 이상";
-
-  platformCheckboxes.forEach((cb) => {
-    cb.checked = true;
-    filterState.platforms[cb.value] = true;
-  });
-
-  applyFiltersAndRender();
+function closeAutocomplete() {
+  autocompleteDropdown.classList.remove("active");
 }
 
 // ============================================================================
-// 5. 정밀 필터링 & 정렬 연산
+// 5. 이벤트 리스너 등록
 // ============================================================================
-function applyFiltersAndRender() {
-  // 1) 필터링
-  const filtered = allChannels.filter((ch) => {
+function bindEvents() {
+  // 키워드 입력 실시간 감지
+  keywordInput.addEventListener("input", handleKeywordInput);
+
+  // 키워드 지우기 버튼
+  btnClearKeyword.addEventListener("click", () => {
+    keywordInput.value = "";
+    btnClearKeyword.style.display = "none";
+    closeAutocomplete();
+    keywordInput.focus();
+  });
+
+  // 키워드 입력창에서 엔터 시 탐색 실행
+  keywordInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      closeAutocomplete();
+      executeSearch();
+    }
+  });
+
+  // 바깥 영역 클릭 시 자동완성 닫기
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".keyword-input-wrapper")) {
+      closeAutocomplete();
+    }
+  });
+
+  // 추천 키워드 칩 클릭 (입력창에 쉼표로 자동 추가)
+  quickKeywords.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const kw = chip.dataset.kw;
+      const currentVal = keywordInput.value.trim();
+      if (!currentVal) {
+        keywordInput.value = kw + ", ";
+      } else if (!currentVal.includes(kw)) {
+        keywordInput.value = currentVal.replace(/,\s*$/, "") + ", " + kw + ", ";
+      }
+      btnClearKeyword.style.display = "block";
+      keywordInput.focus();
+    });
+  });
+
+  // 🔍 [조건에 맞는 채널 탐색하기] 버튼 클릭
+  btnSearchTrigger.addEventListener("click", executeSearch);
+
+  // 설정 초기화 버튼
+  btnResetFilters.addEventListener("click", resetFilters);
+
+  // 정렬 셀렉트 변경
+  selectSort.addEventListener("change", (e) => {
+    currentSort = e.target.value;
+    executeSearch();
+  });
+
+  // 카드 / 테이블 뷰 토글
+  btnViewCard.addEventListener("click", () => setViewMode("card"));
+  btnViewTable.addEventListener("click", () => setViewMode("table"));
+
+  // 엑셀(CSV) 저장
+  btnExportCsv.addEventListener("click", exportToCsv);
+}
+
+// ============================================================================
+// 6. 핵심 탐색 및 정렬 실행 (Search Execution)
+// ============================================================================
+function executeSearch() {
+  closeAutocomplete();
+
+  // 1) 선택된 플랫폼 목록 수집
+  const selectedPlatforms = Array.from(platformCheckboxes)
+    .filter((cb) => cb.checked)
+    .map((cb) => cb.value);
+
+  // 2) 키워드 파싱 (쉼표 또는 공백으로 분리)
+  const rawKeywords = keywordInput.value
+    .split(",")
+    .map((s) => s.trim().replace(/^#/, ""))
+    .filter(Boolean);
+
+  // 3) 숫자 인풋 파싱
+  const minRatio = Number(inputMinRatio.value) || 0;
+  const minViews = Number(inputMinViews.value) || 0;
+  const minSubs = Number(inputMinSubs.value) || 0;
+  const minLikes = Number(inputMinLikes.value) || 0;
+  const limitCount = Number(inputLimitCount.value) || 20;
+
+  // 4) 필터링
+  let results = allChannels.filter((ch) => {
     // 플랫폼 체크
-    if (!filterState.platforms[ch.platform]) return false;
+    if (!selectedPlatforms.includes(ch.platform)) return false;
 
     // 수치 필터
-    if (ch.subscribers < filterState.minSubs) return false;
-    if (ch.avgViews < filterState.minViews) return false;
-    if (ch.likes < filterState.minLikes) return false;
-    if (ch.ratio < filterState.minRatio) return false;
+    if (ch.ratio < minRatio) return false;
+    if (ch.avgViews < minViews) return false;
+    if (ch.subscribers < minSubs) return false;
+    if (ch.likes < minLikes) return false;
 
-    // 다중 키워드 태그 필터 (AND / OR)
-    if (activeTags.length > 0) {
-      const channelSearchBlob = (
+    // 키워드 중복 필터 (입력된 키워드 중 하나라도 포함되면 통과)
+    if (rawKeywords.length > 0) {
+      const searchBlob = (
         ch.name +
         " " +
         ch.category +
@@ -1864,31 +1805,22 @@ function applyFiltersAndRender() {
         ch.tags.join(" ")
       ).toLowerCase();
 
-      if (tagSearchMode === "AND") {
-        const allMatch = activeTags.every((tag) =>
-          channelSearchBlob.includes(tag.toLowerCase())
-        );
-        if (!allMatch) return false;
-      } else {
-        const anyMatch = activeTags.some((tag) =>
-          channelSearchBlob.includes(tag.toLowerCase())
-        );
-        if (!anyMatch) return false;
-      }
+      const matched = rawKeywords.some((kw) => searchBlob.includes(kw.toLowerCase()));
+      if (!matched) return false;
     }
 
     return true;
   });
 
-  // 2) 정렬
-  filtered.sort((a, b) => {
+  // 5) 정렬
+  results.sort((a, b) => {
     switch (currentSort) {
       case "ratio_desc":
         return b.ratio - a.ratio; // 떡상 비율 높은 순
       case "views_desc":
         return b.avgViews - a.avgViews; // 조회수 높은 순
       case "sub_asc":
-        return a.subscribers - b.subscribers; // 구독자 적은 순
+        return a.subscribers - b.subscribers; // 구독자 적은 순 (소형 떡상)
       case "sub_desc":
         return b.subscribers - a.subscribers; // 구독자 많은 순
       case "likes_desc":
@@ -1898,36 +1830,18 @@ function applyFiltersAndRender() {
     }
   });
 
-  // 3) 통계 요약 갱신
-  updateStats(filtered);
-
-  // 4) 뷰 렌더링
-  renderResults(filtered);
-}
-
-// ============================================================================
-// 6. 상단 요약 통계 갱신
-// ============================================================================
-function updateStats(channels) {
-  resultCountEl.textContent = channels.length;
-  statTotalChannels.textContent = `${channels.length}개`;
-
-  if (channels.length === 0) {
-    statAvgRatio.textContent = "0%";
-    statTopChannel.textContent = "-";
-    statTopSub.textContent = "0%";
-    return;
+  // 6) 통계 갱신
+  resultCount.textContent = results.length;
+  if (results.length > 0) {
+    const avg = Math.round(results.reduce((sum, c) => sum + c.ratio, 0) / results.length);
+    avgRatioVal.textContent = `${avg.toLocaleString()}%`;
+  } else {
+    avgRatioVal.textContent = "0%";
   }
 
-  // 평균 떡상 지수 계산
-  const totalRatio = channels.reduce((sum, ch) => sum + ch.ratio, 0);
-  const avgRatio = Math.round(totalRatio / channels.length);
-  statAvgRatio.textContent = `${avgRatio.toLocaleString()}%`;
-
-  // 최고 떡상 채널 탐색
-  const topRatioChannel = [...channels].sort((a, b) => b.ratio - a.ratio)[0];
-  statTopChannel.textContent = topRatioChannel.name;
-  statTopSub.textContent = `🔥 떡상 비율: ${topRatioChannel.ratio.toLocaleString()}% (조회수 ${formatCompactNumber(topRatioChannel.avgViews)})`;
+  // 7) 개수 제한(Limit) 적용 후 렌더링
+  const limitedResults = results.slice(0, limitCount);
+  renderResults(limitedResults);
 }
 
 // ============================================================================
@@ -1936,100 +1850,89 @@ function updateStats(channels) {
 function renderResults(channels) {
   if (channels.length === 0) {
     channelsGrid.style.display = "none";
-    tableContainer.style.display = "none";
-    emptyResults.style.display = "flex";
+    tableWrapper.style.display = "none";
+    emptyBox.style.display = "flex";
     return;
   }
 
-  emptyResults.style.display = "none";
+  emptyBox.style.display = "none";
 
   if (currentViewMode === "card") {
     channelsGrid.style.display = "grid";
-    tableContainer.style.display = "none";
-    renderCardView(channels);
+    tableWrapper.style.display = "none";
+    renderCards(channels);
   } else {
     channelsGrid.style.display = "none";
-    tableContainer.style.display = "block";
-    renderTableView(channels);
+    tableWrapper.style.display = "block";
+    renderTable(channels);
   }
 }
 
-function renderCardView(channels) {
+function renderCards(channels) {
   channelsGrid.innerHTML = "";
 
   channels.forEach((ch) => {
-    // 떡상 화력 단계 (1000% 이상: 극강, 300% 이상: 중상, 기본)
-    let fireClass = "normal";
-    let gaugeColor = "linear-gradient(90deg, #10B981, #059669)";
-    if (ch.ratio >= 1000) {
-      fireClass = "high-fire";
-      gaugeColor = "linear-gradient(90deg, #FF5722 0%, #FE2C55 100%)";
-    } else if (ch.ratio >= 300) {
-      fireClass = "mid-fire";
-      gaugeColor = "linear-gradient(90deg, #F59E0B 0%, #FF8C00 100%)";
-    }
-
-    // 게이지 퍼센트 폭 (최대 2000% 기준)
-    const gaugeWidth = Math.min(100, Math.max(8, (ch.ratio / 2000) * 100));
+    // 떡상 게이지 폭 계산 (최대 2000% 기준)
+    const gaugeWidth = Math.min(100, Math.max(10, (ch.ratio / 2000) * 100));
 
     const card = document.createElement("div");
-    card.className = "channel-card-item";
+    card.className = "channel-card";
     card.innerHTML = `
-      <div class="card-header-row">
-        <div class="avatar-and-info">
+      <div class="card-top">
+        <div class="channel-profile-row">
           <div class="channel-avatar">${ch.avatar || "📱"}</div>
-          <div class="card-title-col">
-            <h4 class="card-channel-name">${escapeHtml(ch.name)}</h4>
-            <span class="card-channel-handle">${escapeHtml(ch.handle)}</span>
+          <div class="channel-titles">
+            <h3 class="channel-name">${escapeHtml(ch.name)}</h3>
+            <span class="channel-handle">${escapeHtml(ch.handle)} · ${escapeHtml(ch.category)}</span>
           </div>
         </div>
-        <span class="platform-badge-chip">
+        <span class="platform-badge">
           <span>${ch.platformIcon}</span> ${escapeHtml(ch.platformName)}
         </span>
       </div>
 
-      <!-- 🔥 구독자 대비 조회수 비율 게이지 (핵심 떡상 지표) -->
-      <div class="ratio-gauge-box">
-        <div class="gauge-header">
-          <span class="gauge-title">🔥 구독자 대비 조회수 (떡상 지수)</span>
-          <span class="gauge-percent ${fireClass}">
+      <!-- 🔥 구독자 대비 조회수 (떡상 지수) -->
+      <div class="ratio-box">
+        <div class="ratio-label-row">
+          <span class="ratio-label-text">🔥 구독자 대비 조회수 (떡상 지수)</span>
+          <span class="ratio-value-text">
             ${ch.ratio >= 500 ? "⚡" : ""} ${ch.ratio.toLocaleString()}%
           </span>
         </div>
-        <div class="gauge-track">
-          <div class="gauge-fill" style="width: ${gaugeWidth}%; background: ${gaugeColor};"></div>
+        <div class="ratio-bar-track">
+          <div class="ratio-bar-fill" style="width: ${gaugeWidth}%;"></div>
         </div>
       </div>
 
-      <!-- 4대 정량 지표 칩 -->
-      <div class="metrics-chips-grid">
-        <div class="metric-chip-col">
-          <span class="chip-label">👥 구독자</span>
-          <span class="chip-val">${formatCompactNumber(ch.subscribers)}</span>
+      <!-- 4대 정량 지표 (선명한 고대비 수치) -->
+      <div class="metrics-grid-card">
+        <div class="metric-col">
+          <span class="col-label">👥 구독자</span>
+          <span class="col-val">${formatNumber(ch.subscribers)}</span>
         </div>
-        <div class="metric-chip-col">
-          <span class="chip-label">👁️ 평균조회수</span>
-          <span class="chip-val" style="color: #25F4EE;">${formatCompactNumber(ch.avgViews)}</span>
+        <div class="metric-col">
+          <span class="col-label">👁️ 평균조회수</span>
+          <span class="col-val views">${formatNumber(ch.avgViews)}</span>
         </div>
-        <div class="metric-chip-col">
-          <span class="chip-label">❤️ 좋아요</span>
-          <span class="chip-val">${formatCompactNumber(ch.likes)}</span>
+        <div class="metric-col">
+          <span class="col-label">❤️ 좋아요</span>
+          <span class="col-val">${formatNumber(ch.likes)}</span>
         </div>
-        <div class="metric-chip-col">
-          <span class="chip-label">💬 댓글</span>
-          <span class="chip-val">${formatCompactNumber(ch.comments)}</span>
+        <div class="metric-col">
+          <span class="col-label">💬 댓글</span>
+          <span class="col-val">${formatNumber(ch.comments)}</span>
         </div>
       </div>
 
       <!-- 떡상 비결 설명 -->
-      <div class="highlight-text-box">
-        💡 <strong>핵심 떡상 공식:</strong> ${escapeHtml(ch.highlight)}
+      <div class="highlight-box">
+        💡 <strong>떡상 공식:</strong> ${escapeHtml(ch.highlight)}
       </div>
 
-      <!-- 태그 및 바로가기 -->
-      <div class="card-bottom-row">
-        <div class="channel-tag-chips">
-          ${ch.tags.map((t) => `<span class="tag-mini">#${escapeHtml(t)}</span>`).join("")}
+      <!-- 하단 태그 및 바로가기 -->
+      <div class="card-bottom">
+        <div class="tags-wrap">
+          ${ch.tags.map((t) => `<span class="tag-badge">#${escapeHtml(t)}</span>`).join("")}
         </div>
         <a href="${ch.url}" target="_blank" class="btn-visit">채널 탐색 ↗</a>
       </div>
@@ -2039,40 +1942,43 @@ function renderCardView(channels) {
   });
 }
 
-function renderTableView(channels) {
+function renderTable(channels) {
   tableBody.innerHTML = "";
 
   channels.forEach((ch, idx) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><strong>${idx + 1}</strong></td>
+      <td><strong style="color: var(--text-primary);">${idx + 1}</strong></td>
       <td>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span>${ch.platformIcon}</span>
+          <span style="font-size: 20px;">${ch.platformIcon}</span>
           <div>
-            <div style="font-weight: 800; color: #FFF;">${escapeHtml(ch.name)}</div>
-            <div style="font-size: 10px; color: #94A3B8;">${escapeHtml(ch.handle)}</div>
+            <div style="font-weight: 900; color: var(--text-primary); font-size: 14.5px;">${escapeHtml(ch.name)}</div>
+            <div style="font-size: 11px; color: var(--text-highlight); font-weight: 700;">${escapeHtml(ch.handle)}</div>
           </div>
         </div>
       </td>
-      <td>${escapeHtml(ch.category)}</td>
-      <td>${formatCompactNumber(ch.subscribers)}</td>
-      <td style="color: #25F4EE; font-weight: 800;">${formatCompactNumber(ch.avgViews)}</td>
+      <td style="font-weight: 700;">${escapeHtml(ch.category)}</td>
+      <td style="font-weight: 800; color: var(--text-primary);">${formatNumber(ch.subscribers)}</td>
+      <td style="font-weight: 900; color: var(--text-highlight); font-size: 14px;">${formatNumber(ch.avgViews)}</td>
       <td>
-        <strong style="color: ${ch.ratio >= 1000 ? '#FF5722' : ch.ratio >= 300 ? '#F59E0B' : '#10B981'};">
+        <strong style="color: var(--accent-fire); font-size: 16px;">
           🔥 ${ch.ratio.toLocaleString()}%
         </strong>
       </td>
-      <td>${formatCompactNumber(ch.likes)}</td>
-      <td>${formatCompactNumber(ch.comments)}</td>
+      <td style="font-weight: 800;">${formatNumber(ch.likes)}</td>
+      <td style="font-weight: 800;">${formatNumber(ch.comments)}</td>
       <td>
-        <a href="${ch.url}" target="_blank" class="btn-visit" style="padding: 4px 10px; font-size: 10px;">바로가기 ↗</a>
+        <a href="${ch.url}" target="_blank" class="btn-visit" style="padding: 6px 12px; font-size: 11px;">채널 ↗</a>
       </td>
     `;
     tableBody.appendChild(tr);
   });
 }
 
+// ============================================================================
+// 8. 뷰 모드 전환 & 초기화 & 엑셀 다운로드
+// ============================================================================
 function setViewMode(mode) {
   currentViewMode = mode;
   if (mode === "card") {
@@ -2082,21 +1988,38 @@ function setViewMode(mode) {
     btnViewTable.classList.add("active");
     btnViewCard.classList.remove("active");
   }
-  applyFiltersAndRender();
+  executeSearch();
 }
 
-// ============================================================================
-// 8. CSV 엑셀 내보내기
-// ============================================================================
+function resetFilters() {
+  keywordInput.value = "";
+  btnClearKeyword.style.display = "none";
+  closeAutocomplete();
+
+  inputMinRatio.value = 100;
+  inputMinViews.value = 0;
+  inputMinSubs.value = 0;
+  inputMinLikes.value = 0;
+  inputLimitCount.value = 20;
+
+  platformCheckboxes.forEach((cb) => (cb.checked = true));
+
+  executeSearch();
+}
+
 function exportToCsv() {
-  const filtered = allChannels.filter((ch) => filterState.platforms[ch.platform]);
-  if (filtered.length === 0) {
-    alert("내보낼 데이터가 없습니다.");
+  const selectedPlatforms = Array.from(platformCheckboxes)
+    .filter((cb) => cb.checked)
+    .map((cb) => cb.value);
+
+  const targets = allChannels.filter((c) => selectedPlatforms.includes(c.platform));
+  if (targets.length === 0) {
+    alert("내보낼 채널 데이터가 없습니다.");
     return;
   }
 
   const headers = ["플랫폼", "채널명", "핸들", "카테고리", "구독자수", "평균조회수", "구독자대비조회수비율(%)", "좋아요", "댓글", "태그", "떡상비결", "URL"];
-  const rows = filtered.map((ch) => [
+  const rows = targets.map((ch) => [
     `"${ch.platformName}"`,
     `"${ch.name.replace(/"/g, '""')}"`,
     `"${ch.handle}"`,
@@ -2123,78 +2046,9 @@ function exportToCsv() {
 }
 
 // ============================================================================
-// 9. 새 채널 직접 등록
+// 9. 유틸리티 (수치 포맷 & XSS 방지)
 // ============================================================================
-function handleAddChannel(e) {
-  e.preventDefault();
-
-  const name = document.getElementById("newChName").value.trim();
-  const handle = document.getElementById("newChHandle").value.trim();
-  const platform = document.getElementById("newChPlatform").value;
-  const category = document.getElementById("newChCategory").value.trim() || "기타";
-  const subs = Number(document.getElementById("newChSubs").value) || 1;
-  const views = Number(document.getElementById("newChViews").value) || 0;
-  const likes = Number(document.getElementById("newChLikes").value) || 0;
-  const comments = Number(document.getElementById("newChComments").value) || 0;
-  const tagsStr = document.getElementById("newChTags").value.trim();
-  const highlight = document.getElementById("newChHighlight").value.trim() || "직접 등록한 벤치마킹 채널";
-  const url = document.getElementById("newChUrl").value.trim() || "https://google.com";
-
-  const platformNames = {
-    douyin: "도우인",
-    tiktok: "틱톡",
-    youtube: "유튜브",
-    xiaohongshu: "샤오홍슈",
-    instagram: "인스타",
-    threads: "스레드"
-  };
-
-  const platformIcons = {
-    douyin: "🇨🇳",
-    tiktok: "🌍",
-    youtube: "▶️",
-    xiaohongshu: "📕",
-    instagram: "📸",
-    threads: "🧵"
-  };
-
-  const newChannel = {
-    id: "custom_" + Date.now(),
-    name,
-    handle,
-    platform,
-    platformName: platformNames[platform] || "기타",
-    platformIcon: platformIcons[platform] || "📱",
-    category,
-    subscribers: subs,
-    avgViews: views,
-    likes,
-    comments,
-    ratio: Math.round((views / subs) * 100),
-    tags: tagsStr ? tagsStr.split(",").map((s) => s.trim()) : ["커스텀"],
-    highlight,
-    url,
-    avatar: "⭐️"
-  };
-
-  allChannels.unshift(newChannel);
-
-  // 로컬 스토리지에 저장
-  const savedCustom = localStorage.getItem("custom_channels");
-  const customChannels = savedCustom ? JSON.parse(savedCustom) : [];
-  customChannels.unshift(newChannel);
-  localStorage.setItem("custom_channels", JSON.stringify(customChannels));
-
-  addModal.classList.add("hidden");
-  formAddChannel.reset();
-  applyFiltersAndRender();
-  alert(`🎉 '${name}' 채널이 성공적으로 등록되었습니다!`);
-}
-
-// ============================================================================
-// 10. 유틸리티 (수치 포맷팅 & XSS 방지)
-// ============================================================================
-function formatCompactNumber(num) {
+function formatNumber(num) {
   if (num >= 100000000) {
     return (num / 100000000).toFixed(1) + "억";
   }
