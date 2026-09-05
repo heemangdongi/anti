@@ -1,0 +1,27 @@
+﻿{
+  "manifest_version": 3,
+  "name": "6대 숏폼 인기 채널 탐색기 (Trend Explorer)",
+  "version": "1.0.0",
+  "description": "도우인, 틱톡, 유튜브 쇼츠, 샤오홍슈, 인스타그램, 스레드의 떡상 채널과 실시간 키워드를 원클릭으로 탐색하고 북마크합니다.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "6대 숏폼 인기 채널 탐색기",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "permissions": [
+    "storage",
+    "tabs"
+  ]
+}

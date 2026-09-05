@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6대 숏폼 인기 채널 탐색기</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- 최상단 헤더 -->
+  <header class="app-header">
+    <div class="logo-area">
+      <span class="logo-icon">🚀</span>
+      <div>
+        <h1 class="app-title">숏폼 떡상 탐색기</h1>
+        <p class="app-subtitle">도우인 · 틱톡 · 유튜브 · 샤오홍슈 · 인스타 · 스레드</p>
+      </div>
+    </div>
+    <!-- 네비게이션 탭 -->
+    <div class="nav-tabs">
+      <button id="tabExplorer" class="nav-btn active" data-tab="explorer">🔥 탐색</button>
+      <button id="tabBookmarks" class="nav-btn" data-tab="bookmarks">⭐️ 보관함 <span id="bookmarkCount" class="badge">0</span></button>
+    </div>
+  </header>
+
+  <!-- 1. 탐색 화면 (Explorer View) -->
+  <main id="viewExplorer" class="view-panel active">
+    <!-- 통합 검색바 -->
+    <section class="search-section">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="키워드 입력 (예: 리프팅, 올리브영, 꿀템...)" />
+        <button id="searchBtn" class="search-action-btn">검색 ↗</button>
+      </div>
+    </section>
+
+    <!-- 6대 플랫폼 선택 탭 -->
+    <section class="platform-bar" id="platformTabs">
+      <button class="platform-chip active" data-platform="douyin">🇨🇳 도우인</button>
+      <button class="platform-chip" data-platform="tiktok">🌍 틱톡</button>
+      <button class="platform-chip" data-platform="youtube">▶️ 유튜브</button>
+      <button class="platform-chip" data-platform="xiaohongshu">📕 샤오홍슈</button>
+      <button class="platform-chip" data-platform="instagram">📸 인스타</button>
+      <button class="platform-chip" data-platform="threads">🧵 스레드</button>
+    </section>
+
+    <!-- 플랫폼 트렌드 정보 헤더 -->
+    <div class="platform-info-banner" id="platformBanner">
+      <div class="banner-title-row">
+        <h2 id="currentPlatformName" class="banner-title">도우인 (抖音)</h2>
+        <span id="currentPlatformBadge" class="banner-badge">중국 원조 숏폼</span>
+      </div>
+      <!-- 실시간 떡상 태그 -->
+      <div class="tags-container" id="tagsContainer">
+        <!-- JS로 동적 렌더링 -->
+      </div>
+    </div>
+
+    <!-- 인기 채널 카드 목록 -->
+    <section class="channel-list-section">
+      <div class="section-title-row">
+        <h3>🏆 실시간 인기 채널 & 벤치마킹</h3>
+        <span class="sub-hint">카드를 클릭해 떡상 포인트를 확인하세요</span>
+      </div>
+      <div class="channel-grid" id="channelList">
+        <!-- JS로 동적 렌더링 -->
+      </div>
+    </section>
+  </main>
+
+  <!-- 2. 내 보관함 화면 (Bookmarks View) -->
+  <main id="viewBookmarks" class="view-panel">
+    <div class="bookmarks-header">
+      <h3>⭐️ 내가 찜한 레퍼런스 채널</h3>
+      <button id="clearBookmarksBtn" class="btn-text-danger">전체 비우기</button>
+    </div>
+    <div class="bookmarks-grid" id="bookmarksList">
+      <!-- JS로 동적 렌더링 -->
+    </div>
+    <div id="emptyBookmarkNotice" class="empty-notice hidden">
+      <span class="empty-icon">📂</span>
+      <p>아직 찜한 채널이 없습니다.</p>
+      <p class="empty-sub">탐색 탭에서 별표(⭐️)를 눌러 영감을 저장해 보세요!</p>
+    </div>
+  </main>
+
+  <!-- 토스트 메시지 -->
+  <div id="toast" class="toast hidden">복사되었습니다!</div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
