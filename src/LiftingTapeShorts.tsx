@@ -1,8 +1,8 @@
 // ============================================================================
 // 🎬 src/LiftingTapeShorts.tsx
-// "스킨업 페이스 브이라인 리프팅 테이프" 전용 바이럴 쇼츠 컴포넌트입니다.
-// 도우인/틱톡 뷰티 떡상 공식(후킹 -> 시연 효과 -> 초슬림 특장점 -> 특가 CTA)에
-// 신나는 비트 BGM(오디오 더킹)과 3대 타이밍 효과음(SFX)을 완벽 결합하였습니다.
+// "스킨업 페이스 브이라인 리프팅 테이프" 4단 멀티 컷편집 바이럴 쇼츠 컴포넌트입니다.
+// 씬 1(턱살 고민) -> 씬 2(테이프 시연) -> 씬 3(완벽 V라인 메이크업) -> 씬 4(특가 CTA)
+// 각 컷마다 켄 번스(Ken Burns) 카메라 무빙과 타이밍 효과음, 단어 싱크 자막을 결합했습니다.
 // ============================================================================
 
 import React from "react";
@@ -17,7 +17,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { Sparkles, Zap, Flame, ArrowRight, ShieldCheck, Heart } from "lucide-react";
+import { Sparkles, Zap, Flame, ArrowRight, ShieldCheck, Heart, AlertCircle, CheckCircle2 } from "lucide-react";
 import liftingData from "./subtitles_lifting.json";
 
 // 자막 단어 인터페이스 정의
@@ -34,34 +34,19 @@ export const LiftingTapeShorts: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // 1. 메인 자막 데이터
+  // 1. 자막 데이터 로드
   const subtitles: SubtitleWord[] = liftingData.subtitles;
 
-  // 2. 현재 말하고 있는 단어 인덱스 찾기
+  // 2. 현재 발화 중인 단어 찾기
   const currentWordIndex = subtitles.findIndex(
     (w) => frame >= w.startFrame && frame <= w.endFrame
   );
 
-  // 3. 자막을 보기 좋게 3~4단어씩 그룹화해서 화면에 띄우기 (쇼츠 가독성 극대화)
+  // 3. 자막을 보기 좋게 3~4단어 그룹으로 슬라이스
   const groupStart = Math.max(0, currentWordIndex - (currentWordIndex % 4));
   const currentGroup = subtitles.slice(groupStart, groupStart + 4);
 
-  // 4. 제품 이미지 부드러운 플로팅(둥실둥실) 애니메이션
-  const floatY = Math.sin(frame / 12) * 12;
-  const imageScale = spring({
-    frame,
-    fps,
-    config: { damping: 14, mass: 0.8 },
-  });
-
-  // 5. 프레임 구간별 상태 감지 (0~140: 후킹, 141~350: 리프팅 효과, 351~520: 무광 방수 특장점, 521~: 특가 CTA)
-  const isHooking = frame < 150;
-  const isFeature = frame >= 350 && frame < 520;
-  const isCta = frame >= 520;
-
-  // 6. 🎧 지능형 오디오 더킹(Audio Ducking) 볼륨 계산
-  // 성우가 말을 할 때는 BGM 볼륨을 0.15로 낮춰 대사가 또렷하게 들리고,
-  // 말이 쉬는 구간(500프레임 이후)에서는 0.35로 올려 신나게 분위기를 살립니다.
+  // 4. 🎧 지능형 오디오 더킹 (Audio Ducking)
   const isSpeaking = currentWordIndex !== -1;
   const bgmVolume = interpolate(
     frame,
@@ -70,89 +55,203 @@ export const LiftingTapeShorts: React.FC = () => {
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
+  // 5. 컷 전환 타이밍 정의 (총 652프레임)
+  // - 컷 1 (후킹): 0 ~ 150프레임 (약 5초)
+  // - 컷 2 (시연): 151 ~ 350프레임 (약 6.6초)
+  // - 컷 3 (V라인 완성): 351 ~ 520프레임 (약 5.6초)
+  // - 컷 4 (엔딩 CTA): 521 ~ 652프레임 (약 4.4초)
+
+  // 컷 1 켄 번스 줌인 (턱선 클로즈업)
+  const cut1Scale = interpolate(frame, [0, 150], [1.0, 1.15], { extrapolateRight: "clamp" });
+
+  // 컷 2 켄 번스 패닝 & 줌
+  const cut2Scale = interpolate(frame, [151, 350], [1.05, 1.18], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const cut2Y = interpolate(frame, [151, 350], [0, -30], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  // 컷 3 켄 번스 줌아웃 (당당한 V라인 전신)
+  const cut3Scale = interpolate(frame, [351, 520], [1.16, 1.02], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  // 컷 4 제품 카드 스프링 팝업
+  const cut4Spring = spring({
+    frame: frame - 521,
+    fps,
+    config: { damping: 12 },
+  });
+
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#0B0F19",
+        backgroundColor: "#05070D",
         fontFamily: "'Pretendard', sans-serif",
         color: "#FFFFFF",
         overflow: "hidden",
       }}
     >
       {/* ================================================================== */}
-      {/* 🎵 [오디오 트랙]: 목소리 + BGM + 3대 타이밍 효과음(SFX) */}
+      {/* 🎵 [오디오 트랙]: 내레이션 + BGM + 타이밍 효과음(SFX) */}
       {/* ================================================================== */}
-      
-      {/* 1. 메인 AI 성우 내레이션 음성 */}
       <Audio src={staticFile("lifting_voice.mp3")} volume={1.0} />
-
-      {/* 2. 트렌디 숏폼 미니멀 비트 BGM (오디오 더킹 적용) */}
       <Audio src={staticFile("bgm.wav")} volume={bgmVolume} />
 
-      {/* 3. [0초 후킹] 묵직한 베이스 드롭 임팩트 사운드 (쿵!) */}
+      {/* 0초 쿵! 베이스 드롭 */}
       <Sequence from={0} durationInFrames={35}>
         <Audio src={staticFile("impact.wav")} volume={0.8} />
       </Sequence>
-
-      {/* 4. [7초 215프레임] 테이프 당겨 붙이는 쾌감 스우시 사운드 (슉!) */}
+      {/* 7초 슉! 테이프 부착 스우시 */}
       <Sequence from={215} durationInFrames={20}>
         <Audio src={staticFile("whoosh.wav")} volume={0.85} />
       </Sequence>
-
-      {/* 5. [10초 290프레임] 3초 만에 리프팅 완성 반짝임 사운드 (띵!) */}
+      {/* 10초 띵! 리프팅 완성 벨 */}
       <Sequence from={290} durationInFrames={30}>
         <Audio src={staticFile("ding.wav")} volume={0.7} />
       </Sequence>
-
-      {/* 6. [18초 525프레임] 프로필 링크 특가 유도 클릭 팝 사운드 (띵!) */}
+      {/* 18초 띵! 특가 CTA 클릭음 */}
       <Sequence from={525} durationInFrames={30}>
         <Audio src={staticFile("ding.wav")} volume={0.9} />
       </Sequence>
 
-      {/* 🌸 은은하게 퍼지는 럭셔리 핑크 & 퍼플 네온 오로라 배경 */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-10%",
-          left: "-10%",
-          width: "900px",
-          height: "900px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255, 105, 180, 0.25) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-10%",
-          right: "-10%",
-          width: "900px",
-          height: "900px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
-      />
+      {/* ================================================================== */}
+      {/* 🎬 [멀티 컷 배경 레이어]: 대본과 100% 매칭되는 4개의 동적 컷 */}
+      {/* ================================================================== */}
 
-      {/* 📌 메인 9:16 쇼츠 레이아웃 (세로 1920px) */}
+      {/* 🔴 [컷 1: 후킹 씬 (0~150f)] 거울 보며 턱살 고민하는 모델 */}
+      {frame <= 150 && (
+        <AbsoluteFill style={{ overflow: "hidden" }}>
+          <Img
+            src={staticFile("scene1_concern.jpg")}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transform: `scale(${cut1Scale})`,
+              filter: "contrast(1.05) brightness(0.95)",
+            }}
+          />
+          {/* 하단 틴트 그라데이션 */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top, rgba(5,7,13,0.95) 0%, rgba(5,7,13,0.4) 30%, transparent 60%)",
+            }}
+          />
+        </AbsoluteFill>
+      )}
+
+      {/* 🟡 [컷 2: 시연 씬 (151~350f)] 턱선에 테이프 붙이고 귀 뒤로 당기는 시연 */}
+      {frame > 150 && frame <= 350 && (
+        <AbsoluteFill style={{ overflow: "hidden" }}>
+          <Img
+            src={staticFile("scene2_apply.jpg")}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transform: `scale(${cut2Scale}) translateY(${cut2Y}px)`,
+              filter: "contrast(1.08) brightness(1.0)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top, rgba(5,7,13,0.95) 0%, rgba(5,7,13,0.4) 30%, transparent 60%)",
+            }}
+          />
+        </AbsoluteFill>
+      )}
+
+      {/* 🟢 [컷 3: 완성 씬 (351~520f)] 완벽한 V라인과 도자기 피부로 미소 짓는 모델 */}
+      {frame > 350 && frame <= 520 && (
+        <AbsoluteFill style={{ overflow: "hidden" }}>
+          <Img
+            src={staticFile("scene3_beauty.jpg")}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transform: `scale(${cut3Scale})`,
+              filter: "contrast(1.05) brightness(1.02)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top, rgba(5,7,13,0.95) 0%, rgba(5,7,13,0.4) 30%, transparent 60%)",
+            }}
+          />
+        </AbsoluteFill>
+      )}
+
+      {/* 🟣 [컷 4: 엔딩 CTA 씬 (521~652f)] 럭셔리 제품 실물 쇼케이스 카드 */}
+      {frame > 520 && (
+        <AbsoluteFill style={{ overflow: "hidden", background: "#0B0F19" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "-15%",
+              left: "-10%",
+              width: "800px",
+              height: "800px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255, 0, 122, 0.3) 0%, transparent 70%)",
+              filter: "blur(90px)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-15%",
+              right: "-10%",
+              width: "800px",
+              height: "800px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(121, 40, 202, 0.3) 0%, transparent 70%)",
+              filter: "blur(90px)",
+            }}
+          />
+          {/* 제품 이미지 팝업 박스 */}
+          <div
+            style={{
+              position: "absolute",
+              top: "220px",
+              left: "140px",
+              width: "800px",
+              height: "750px",
+              borderRadius: "36px",
+              overflow: "hidden",
+              boxShadow: "0 30px 80px rgba(0,0,0,0.8), 0 0 50px rgba(255, 0, 122, 0.3)",
+              border: "2px solid rgba(255, 255, 255, 0.2)",
+              transform: `scale(${cut4Spring})`,
+            }}
+          >
+            <Img
+              src={staticFile("lifting_tape.jpg")}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+        </AbsoluteFill>
+      )}
+
+      {/* ================================================================== */}
+      {/* 📱 [포그라운드 오버레이 UI]: 배지, 자막, CTA 버튼 */}
+      {/* ================================================================== */}
       <div
         style={{
+          position: "relative",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "space-between",
           height: "100%",
-          padding: "90px 50px 70px",
+          padding: "80px 48px 60px",
           boxSizing: "border-box",
-          zIndex: 2,
+          zIndex: 10,
         }}
       >
-        {/* ================================================================== */}
-        {/* 🔼 [상단 섹션]: 후킹 뱃지 및 메인 카피 */}
-        {/* ================================================================== */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-          {/* 상단 포인트 태그 */}
+        {/* 🔼 [상단 배지]: 컷마다 다이내믹하게 변경 */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
           <div
             style={{
               display: "flex",
@@ -160,129 +259,69 @@ export const LiftingTapeShorts: React.FC = () => {
               gap: "10px",
               padding: "12px 28px",
               borderRadius: "50px",
-              background: "rgba(255, 255, 255, 0.12)",
+              background: frame <= 150
+                ? "rgba(239, 68, 68, 0.25)"
+                : frame <= 350
+                ? "rgba(255, 0, 122, 0.25)"
+                : "rgba(16, 185, 129, 0.25)",
               backdropFilter: "blur(16px)",
               border: "1px solid rgba(255, 255, 255, 0.25)",
-              boxShadow: "0 8px 30px rgba(255, 105, 180, 0.3)",
+              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.4)",
             }}
           >
-            <Sparkles size={26} color="#FF69B4" />
-            <span style={{ fontSize: "28px", fontWeight: 800, color: "#FFFFFF", letterSpacing: "1px" }}>
-              {isHooking ? "🚨 턱선 실종 비상!" : isFeature ? "✨ 초슬림 무광 방수" : "🔥 오늘 단 하루 특가"}
-            </span>
+            {frame <= 150 ? (
+              <>
+                <AlertCircle size={26} color="#EF4444" />
+                <span style={{ fontSize: "28px", fontWeight: 900, color: "#FCA5A5" }}>🚨 턱선 실종 비상!</span>
+              </>
+            ) : frame <= 350 ? (
+              <>
+                <Zap size={26} color="#FF007A" />
+                <span style={{ fontSize: "28px", fontWeight: 900, color: "#FF69B4" }}>⚡ 3초 리프팅 시연</span>
+              </>
+            ) : frame <= 520 ? (
+              <>
+                <ShieldCheck size={26} color="#10B981" />
+                <span style={{ fontSize: "28px", fontWeight: 900, color: "#6EE7B7" }}>✨ 초슬림 무광 방수</span>
+              </>
+            ) : (
+              <>
+                <Flame size={26} color="#F59E0B" />
+                <span style={{ fontSize: "28px", fontWeight: 900, color: "#FCD34D" }}>🔥 단독 48% 특가 세일</span>
+              </>
+            )}
           </div>
 
-          {/* 메인 제품 타이틀 */}
-          <h1
+          <h2
             style={{
-              fontSize: "58px",
+              fontSize: "44px",
               fontWeight: 900,
-              textAlign: "center",
               margin: 0,
-              lineHeight: 1.25,
-              background: "linear-gradient(135deg, #FFFFFF 0%, #FFD1DC 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textShadow: "0 4px 25px rgba(0,0,0,0.6)",
+              textShadow: "0 4px 20px rgba(0,0,0,0.8)",
+              color: "#FFFFFF",
+              letterSpacing: "-1px",
             }}
           >
             스킨업 브이라인 리프팅 테이프
-          </h1>
+          </h2>
         </div>
 
-        {/* ================================================================== */}
-        {/* 🖼️ [중앙 섹션]: AI 생성 초고화질 제품 쇼케이스 카드 */}
-        {/* ================================================================== */}
-        <div
-          style={{
-            position: "relative",
-            width: "680px",
-            height: "680px",
-            borderRadius: "40px",
-            overflow: "hidden",
-            boxShadow: "0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 105, 180, 0.25)",
-            border: "2px solid rgba(255, 255, 255, 0.2)",
-            transform: `scale(${imageScale}) translateY(${floatY}px)`,
-          }}
-        >
-          {/* AI 생성 제품 이미지 */}
-          <Img
-            src={staticFile("lifting_tape.jpg")}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-
-          {/* 3초 만에 올라가는 쾌감 플로팅 배지 */}
-          <div
-            style={{
-              position: "absolute",
-              top: "24px",
-              right: "24px",
-              padding: "10px 22px",
-              borderRadius: "20px",
-              background: "rgba(255, 0, 90, 0.85)",
-              backdropFilter: "blur(10px)",
-              color: "#FFFFFF",
-              fontSize: "24px",
-              fontWeight: 900,
-              boxShadow: "0 6px 20px rgba(255, 0, 90, 0.5)",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <Zap size={22} color="#FFF" />
-            <span>3초 리프팅 완성</span>
-          </div>
-
-          {/* 하단 투명 무광 안내 오버레이 */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "0",
-              left: "0",
-              right: "0",
-              padding: "24px 30px",
-              background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <ShieldCheck size={26} color="#10B981" />
-              <span style={{ fontSize: "24px", fontWeight: 700, color: "#E2E8F0" }}>
-                초밀착 무광 • 완벽 방수
-              </span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#FF69B4" }}>
-              <Heart size={22} fill="#FF69B4" />
-              <span style={{ fontSize: "22px", fontWeight: 800 }}>실시간 인기 1위</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ================================================================== */}
-        {/* 💬 [중하단 섹션]: 노래방 스타일 단어 싱크 자막 박스 (핵심 떡상 포인트!) */}
-        {/* ================================================================== */}
+        {/* 💬 [중하단 자막 박스]: 단어별 실시간 하이라이트 */}
         <div
           style={{
             width: "100%",
             minHeight: "180px",
-            padding: "30px 40px",
+            padding: "28px 36px",
             borderRadius: "32px",
-            background: "rgba(15, 23, 42, 0.85)",
-            backdropFilter: "blur(20px)",
+            background: "rgba(10, 15, 26, 0.88)",
+            backdropFilter: "blur(24px)",
             border: "1px solid rgba(255, 255, 255, 0.18)",
-            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 25px 60px rgba(0, 0, 0, 0.7)",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
-            gap: "16px 20px",
+            gap: "14px 18px",
           }}
         >
           {currentGroup.map((word) => {
@@ -293,22 +332,22 @@ export const LiftingTapeShorts: React.FC = () => {
               <span
                 key={word.id}
                 style={{
-                  fontSize: isSpeakingNow ? "54px" : "46px",
+                  fontSize: isSpeakingNow ? "52px" : "44px",
                   fontWeight: isSpeakingNow ? 900 : 700,
-                  padding: isSpeakingNow ? "8px 24px" : "6px 14px",
+                  padding: isSpeakingNow ? "8px 22px" : "6px 14px",
                   borderRadius: "18px",
                   background: isSpeakingNow
-                    ? "linear-gradient(135deg, #FF1493 0%, #FF8C00 100%)"
+                    ? "linear-gradient(135deg, #FF007A 0%, #FF8C00 100%)"
                     : "transparent",
                   color: isSpeakingNow
                     ? "#FFFFFF"
                     : hasPassed
-                    ? "#CBD5E1"
+                    ? "#E2E8F0"
                     : "rgba(255, 255, 255, 0.35)",
                   transform: isSpeakingNow ? "scale(1.15)" : "scale(1.0)",
                   transition: "all 0.08s ease-out",
                   boxShadow: isSpeakingNow
-                    ? "0 10px 30px rgba(255, 20, 147, 0.6)"
+                    ? "0 10px 30px rgba(255, 0, 122, 0.7)"
                     : "none",
                   display: "inline-block",
                   letterSpacing: "-0.5px",
@@ -320,9 +359,7 @@ export const LiftingTapeShorts: React.FC = () => {
           })}
         </div>
 
-        {/* ================================================================== */}
-        {/* 🛒 [하단 CTA 섹션]: 구매 유도 및 프로필 링크 안내 버튼 */}
-        {/* ================================================================== */}
+        {/* 🛒 [하단 CTA 바] */}
         <div
           style={{
             width: "100%",
@@ -331,20 +368,20 @@ export const LiftingTapeShorts: React.FC = () => {
             justifyContent: "space-between",
             padding: "20px 36px",
             borderRadius: "50px",
-            background: isCta
+            background: frame > 520
               ? "linear-gradient(135deg, #FF0055 0%, #FF6600 100%)"
-              : "rgba(255, 255, 255, 0.1)",
-            border: "1px solid rgba(255, 255, 255, 0.3)",
-            boxShadow: isCta
-              ? "0 12px 40px rgba(255, 0, 85, 0.6)"
-              : "0 8px 24px rgba(0, 0, 0, 0.3)",
-            transition: "all 0.3s ease",
+              : "rgba(255, 255, 255, 0.12)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255, 255, 255, 0.25)",
+            boxShadow: frame > 520
+              ? "0 14px 40px rgba(255, 0, 85, 0.6)"
+              : "0 8px 25px rgba(0, 0, 0, 0.3)",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Flame size={32} color="#FFD700" />
             <span style={{ fontSize: "28px", fontWeight: 900, color: "#FFFFFF" }}>
-              {isCta ? "🔥 지금 바로 프로필 링크 클릭!" : "👉 중요한 날 3초 만에 턱선 복구"}
+              {frame > 520 ? "🔥 지금 프로필 링크 클릭!" : "👉 3초 만에 턱선 복구 치트키"}
             </span>
           </div>
 
