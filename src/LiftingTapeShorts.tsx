@@ -1,7 +1,8 @@
 // ============================================================================
 // 🎬 src/LiftingTapeShorts.tsx
 // "스킨업 페이스 브이라인 리프팅 테이프" 전용 바이럴 쇼츠 컴포넌트입니다.
-// 도우인/틱톡 뷰티 떡상 공식(후킹 -> 시연 효과 -> 초슬림 특장점 -> 특가 CTA)을 적용했습니다.
+// 도우인/틱톡 뷰티 떡상 공식(후킹 -> 시연 효과 -> 초슬림 특장점 -> 특가 CTA)에
+// 신나는 비트 BGM(오디오 더킹)과 3대 타이밍 효과음(SFX)을 완벽 결합하였습니다.
 // ============================================================================
 
 import React from "react";
@@ -9,6 +10,7 @@ import {
   AbsoluteFill,
   Audio,
   Img,
+  Sequence,
   interpolate,
   spring,
   staticFile,
@@ -41,8 +43,6 @@ export const LiftingTapeShorts: React.FC = () => {
   );
 
   // 3. 자막을 보기 좋게 3~4단어씩 그룹화해서 화면에 띄우기 (쇼츠 가독성 극대화)
-  // 현재 말하고 있는 단어 주변 4단어를 슬라이스해서 보여줍니다.
-  const activeWord = subtitles[currentWordIndex] || subtitles[0];
   const groupStart = Math.max(0, currentWordIndex - (currentWordIndex % 4));
   const currentGroup = subtitles.slice(groupStart, groupStart + 4);
 
@@ -59,6 +59,17 @@ export const LiftingTapeShorts: React.FC = () => {
   const isFeature = frame >= 350 && frame < 520;
   const isCta = frame >= 520;
 
+  // 6. 🎧 지능형 오디오 더킹(Audio Ducking) 볼륨 계산
+  // 성우가 말을 할 때는 BGM 볼륨을 0.15로 낮춰 대사가 또렷하게 들리고,
+  // 말이 쉬는 구간(500프레임 이후)에서는 0.35로 올려 신나게 분위기를 살립니다.
+  const isSpeaking = currentWordIndex !== -1;
+  const bgmVolume = interpolate(
+    frame,
+    [0, 30, 480, 520, 620, 650],
+    [0.2, isSpeaking ? 0.15 : 0.25, 0.15, 0.35, 0.35, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+
   return (
     <AbsoluteFill
       style={{
@@ -68,8 +79,35 @@ export const LiftingTapeShorts: React.FC = () => {
         overflow: "hidden",
       }}
     >
-      {/* 🎧 AI 생성 한국어 내레이션 음성 파일 재생 */}
-      <Audio src={staticFile("lifting_voice.mp3")} />
+      {/* ================================================================== */}
+      {/* 🎵 [오디오 트랙]: 목소리 + BGM + 3대 타이밍 효과음(SFX) */}
+      {/* ================================================================== */}
+      
+      {/* 1. 메인 AI 성우 내레이션 음성 */}
+      <Audio src={staticFile("lifting_voice.mp3")} volume={1.0} />
+
+      {/* 2. 트렌디 숏폼 미니멀 비트 BGM (오디오 더킹 적용) */}
+      <Audio src={staticFile("bgm.wav")} volume={bgmVolume} />
+
+      {/* 3. [0초 후킹] 묵직한 베이스 드롭 임팩트 사운드 (쿵!) */}
+      <Sequence from={0} durationInFrames={35}>
+        <Audio src={staticFile("impact.wav")} volume={0.8} />
+      </Sequence>
+
+      {/* 4. [7초 215프레임] 테이프 당겨 붙이는 쾌감 스우시 사운드 (슉!) */}
+      <Sequence from={215} durationInFrames={20}>
+        <Audio src={staticFile("whoosh.wav")} volume={0.85} />
+      </Sequence>
+
+      {/* 5. [10초 290프레임] 3초 만에 리프팅 완성 반짝임 사운드 (띵!) */}
+      <Sequence from={290} durationInFrames={30}>
+        <Audio src={staticFile("ding.wav")} volume={0.7} />
+      </Sequence>
+
+      {/* 6. [18초 525프레임] 프로필 링크 특가 유도 클릭 팝 사운드 (띵!) */}
+      <Sequence from={525} durationInFrames={30}>
+        <Audio src={staticFile("ding.wav")} volume={0.9} />
+      </Sequence>
 
       {/* 🌸 은은하게 퍼지는 럭셔리 핑크 & 퍼플 네온 오로라 배경 */}
       <div
@@ -248,28 +286,28 @@ export const LiftingTapeShorts: React.FC = () => {
           }}
         >
           {currentGroup.map((word) => {
-            const isSpeaking = frame >= word.startFrame && frame <= word.endFrame;
+            const isSpeakingNow = frame >= word.startFrame && frame <= word.endFrame;
             const hasPassed = frame > word.endFrame;
 
             return (
               <span
                 key={word.id}
                 style={{
-                  fontSize: isSpeaking ? "54px" : "46px",
-                  fontWeight: isSpeaking ? 900 : 700,
-                  padding: isSpeaking ? "8px 24px" : "6px 14px",
+                  fontSize: isSpeakingNow ? "54px" : "46px",
+                  fontWeight: isSpeakingNow ? 900 : 700,
+                  padding: isSpeakingNow ? "8px 24px" : "6px 14px",
                   borderRadius: "18px",
-                  background: isSpeaking
+                  background: isSpeakingNow
                     ? "linear-gradient(135deg, #FF1493 0%, #FF8C00 100%)"
                     : "transparent",
-                  color: isSpeaking
+                  color: isSpeakingNow
                     ? "#FFFFFF"
                     : hasPassed
                     ? "#CBD5E1"
                     : "rgba(255, 255, 255, 0.35)",
-                  transform: isSpeaking ? "scale(1.15)" : "scale(1.0)",
+                  transform: isSpeakingNow ? "scale(1.15)" : "scale(1.0)",
                   transition: "all 0.08s ease-out",
-                  boxShadow: isSpeaking
+                  boxShadow: isSpeakingNow
                     ? "0 10px 30px rgba(255, 20, 147, 0.6)"
                     : "none",
                   display: "inline-block",
