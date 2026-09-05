@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ 쇼츠 팩토리 PRO - 쇼핑/꿀템 추천 쇼츠 자동 생성기</title>
+  <title>⚡ 쇼츠 팩토리 PRO - 쇼핑/꿀템 추천 쇼츠 자동 생성기 (with Google Flow)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #090D16;
-      --card-bg: rgba(23, 32, 54, 0.7);
-      --card-border: rgba(255, 255, 255, 0.12);
+      --card-bg: rgba(23, 32, 54, 0.75);
+      --card-border: rgba(255, 255, 255, 0.14);
       --primary: #FF007A;
       --secondary: #7928CA;
       --accent: #00F2FE;
       --text-main: #FFFFFF;
       --text-sub: #94A3B8;
       --success: #10B981;
+      --flow-color: #4285F4;
     }
 
     * {
@@ -67,7 +68,7 @@
 
     .container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1140px;
       position: relative;
       z-index: 1;
     }
@@ -75,36 +76,36 @@
     /* 헤더 */
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 18px;
+      padding: 8px 20px;
       background: rgba(255, 0, 122, 0.15);
       border: 1px solid rgba(255, 0, 122, 0.4);
       border-radius: 50px;
       font-size: 14px;
       font-weight: 700;
       color: #FF69B4;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 20px rgba(255, 0, 122, 0.2);
     }
 
     h1 {
-      font-size: 42px;
+      font-size: 40px;
       font-weight: 900;
       background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 60%, #FF99C8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       letter-spacing: -1px;
     }
 
     p.subtitle {
-      font-size: 18px;
+      font-size: 17px;
       color: var(--text-sub);
       font-weight: 400;
     }
@@ -116,7 +117,7 @@
       gap: 28px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 950px) {
       .grid-layout {
         grid-template-columns: 1fr;
       }
@@ -129,28 +130,28 @@
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 32px;
+      padding: 30px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
     .card-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       color: #FFFFFF;
     }
 
     /* 폼 요소 */
     .form-group {
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: #CBD5E1;
       margin-bottom: 8px;
@@ -158,7 +159,7 @@
 
     input[type="text"], select, textarea {
       width: 100%;
-      padding: 14px 18px;
+      padding: 13px 16px;
       background: rgba(15, 23, 42, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 14px;
@@ -174,7 +175,7 @@
     }
 
     textarea {
-      height: 160px;
+      height: 120px;
       resize: vertical;
       line-height: 1.6;
     }
@@ -182,10 +183,10 @@
     /* 버튼 스타일 */
     .btn {
       width: 100%;
-      padding: 16px;
+      padding: 15px;
       border: none;
-      border-radius: 16px;
-      font-size: 17px;
+      border-radius: 14px;
+      font-size: 16px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
@@ -206,31 +207,20 @@
       box-shadow: 0 14px 32px rgba(255, 0, 122, 0.6);
     }
 
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      margin-top: 12px;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
-
     /* 템플릿 칩 */
     .template-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .chip {
-      padding: 6px 14px;
+      padding: 5px 12px;
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12px;
       color: #CBD5E1;
       cursor: pointer;
       transition: all 0.2s;
@@ -240,6 +230,70 @@
       background: rgba(255, 0, 122, 0.2);
       border-color: var(--primary);
       color: #FFFFFF;
+    }
+
+    /* Google Flow 전용 섹션 */
+    .flow-section {
+      margin-top: 24px;
+      padding: 20px;
+      background: rgba(66, 133, 244, 0.08);
+      border: 1px solid rgba(66, 133, 244, 0.25);
+      border-radius: 18px;
+    }
+
+    .flow-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .flow-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #60A5FA;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prompt-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prompt-text {
+      font-size: 12px;
+      color: #E2E8F0;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .flow-copy-btn {
+      padding: 6px 12px;
+      background: rgba(66, 133, 244, 0.2);
+      border: 1px solid rgba(66, 133, 244, 0.4);
+      color: #93C5FD;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .flow-copy-btn:hover {
+      background: #3B82F6;
+      color: #FFF;
     }
 
     /* 쇼츠 미리보기 카드 */
@@ -304,37 +358,6 @@
       font-weight: 700;
     }
 
-    /* 실행 안내 코드 블록 */
-    .terminal-box {
-      background: #020617;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-family: 'Consolas', monospace;
-      font-size: 13px;
-      color: #38BDF8;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-    }
-
-    .copy-btn {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #38BDF8;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .copy-btn:hover {
-      background: #38BDF8;
-      color: #000;
-    }
-
     /* 알림 메시지 */
     .toast {
       position: fixed;
@@ -363,13 +386,13 @@
 
   <div class="container">
     <header>
-      <div class="badge">✨ 도우인/틱톡 떡상 공식 탑재 • 무료 AI 엔진</div>
+      <div class="badge">✨ Google Flow(Veo AI) & 틱톡 떡상 공식 탑재</div>
       <h1>쇼핑/꿀템 추천 쇼츠 자동 생성기</h1>
-      <p class="subtitle">상품 이름만 입력하면 3초 후킹 대본부터 AI 성우 자막 쇼츠까지 원클릭으로 완성됩니다.</p>
+      <p class="subtitle">상품명만 넣으면 3초 후킹 대본부터 AI 성우 자막 쇼츠 & Google Flow 영상 프롬프트까지 원클릭 완성!</p>
     </header>
 
     <div class="grid-layout">
-      <!-- 1. 좌측: 대본 생성 및 설정 폼 -->
+      <!-- 1. 좌측: 대본 생성 및 Google Flow 프롬프트 -->
       <div class="glass-card">
         <div class="card-title">
           <span>⚙️ 쇼츠 기획 & 대본 빌더</span>
@@ -379,7 +402,6 @@
           <label>🛍️ 추천 상품명</label>
           <input type="text" id="productName" value="스킨업 페이스 브이라인 리프팅 테이프" placeholder="예: 무선 노이즈캔슬링 헤드폰, 초음파 세척기 등">
           
-          <!-- 추천 꿀템 빠른 선택 칩 -->
           <div class="template-chips">
             <span class="chip" onclick="setProduct('스킨업 페이스 브이라인 리프팅 테이프', '뷰티')">💄 리프팅 테이프</span>
             <span class="chip" onclick="setProduct('무선 노이즈캔슬링 헤드폰 PRO', '전자기기')">🎧 노캔 헤드폰</span>
@@ -389,11 +411,10 @@
         </div>
 
         <div class="form-group">
-          <label>🗣️ AI 한국어 성우 선택 (Edge-TTS)</label>
+          <label>🗣️ AI 한국어 성우 (Microsoft Edge-TTS)</label>
           <select id="voiceSelect" onchange="updatePreview()">
-            <option value="ko-KR-SunHiNeural" selected>선희 (SunHi) - 밝고 신뢰감 있는 아나운서/쇼츠 톤 (추천)</option>
+            <option value="ko-KR-SunHiNeural" selected>선희 (SunHi) - 신뢰감 있는 아나운서/쇼츠 톤 (추천)</option>
             <option value="ko-KR-InJoonNeural">인준 (InJoon) - 차분하고 또렷한 남성 리뷰 톤</option>
-            <option value="ko-KR-HyunsuMultilingualNeural">현수 (Hyunsu) - 트렌디한 다국어 톤</option>
           </select>
         </div>
 
@@ -406,12 +427,32 @@
           <span>⚡ AI 떡상 대본 즉시 자동 생성</span>
         </button>
 
-        <button class="btn btn-secondary" onclick="copyRenderCommand()">
-          <span>🎬 Remotion 렌더링 명령어 복사하기</span>
-        </button>
+        <!-- 🎬 Google Flow 전용 비디오 생성 프롬프트 복사 영역 -->
+        <div class="flow-section">
+          <div class="flow-header">
+            <div class="flow-title">
+              <span>🎥 Google Flow(Veo) 영상 생성 프롬프트</span>
+            </div>
+          </div>
+          
+          <div class="prompt-card">
+            <span class="prompt-text"><b>씬 1 (고민):</b> Vertical 9:16, close-up Korean woman touching jawline looking in mirror worried...</span>
+            <button class="flow-copy-btn" onclick="copyFlowPrompt(1)">복사</button>
+          </div>
+
+          <div class="prompt-card">
+            <span class="prompt-text"><b>씬 2 (시연):</b> Vertical 9:16, applying transparent lifting tape on cheek pulling towards ear...</span>
+            <button class="flow-copy-btn" onclick="copyFlowPrompt(2)">복사</button>
+          </div>
+
+          <div class="prompt-card">
+            <span class="prompt-text"><b>씬 3 (완성):</b> Vertical 9:16, gorgeous Korean woman with sharp V-line jawline flawless skin smiling...</span>
+            <button class="flow-copy-btn" onclick="copyFlowPrompt(3)">복사</button>
+          </div>
+        </div>
       </div>
 
-      <!-- 2. 우측: 실시간 쇼츠 시뮬레이터 미리보기 -->
+      <!-- 2. 우측: 쇼츠 미리보기 시뮬레이터 -->
       <div class="glass-card">
         <div class="card-title">
           <span>📱 쇼츠 9:16 실시간 미리보기</span>
@@ -419,8 +460,8 @@
 
         <div class="preview-phone">
           <div class="preview-header">
-            <span>🔴 REC • 00:15 / 9:16</span>
-            <span id="previewVoiceBadge" style="color: #FF69B4;">🎙️ 선희 성우</span>
+            <span>🔴 4단 멀티컷 편집 모드</span>
+            <span style="color: #FF69B4;">🎙️ 선희 성우 • BGM On</span>
           </div>
 
           <div>
@@ -447,71 +488,42 @@
             <span style="background: #FFF; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 900;">최저가 보기 →</span>
           </div>
         </div>
-
-        <!-- 터미널 명령어 박스 -->
-        <div class="terminal-box">
-          <span id="commandText">npm run render:voice</span>
-          <button class="copy-btn" onclick="copyRenderCommand()">복사</button>
-        </div>
       </div>
     </div>
   </div>
 
-  <div id="toast" class="toast">✅ 명령어가 클립보드에 복사되었습니다!</div>
+  <div id="toast" class="toast">✅ 클립보드에 복사되었습니다!</div>
 
   <script>
-    // 빠른 템플릿 상품 설정
+    const flowPrompts = {
+      1: "Vertical 9:16 cinematic video, close-up shot of a young Korean woman in her 20s looking into a bathroom mirror with a frustrated expression, gently pinching and lifting her jawline and double chin, morning natural bathroom lighting, 4k photorealistic, smooth 60fps movement",
+      2: "Vertical 9:16 close-up side profile video, a pretty Korean woman applying an ultra-thin transparent lifting tape to her cheek and pulling it upwards towards her ear, immediate dramatic V-line lifting transformation, bright cosmetic studio lighting, ultra-realistic skin texture, 4k",
+      3: "Vertical 9:16 high-fashion commercial video, gorgeous Korean woman with flawless glass skin and razor-sharp V-line jawline smiling confidently into the camera, turning her head gracefully, soft pastel studio background, magazine cover quality, 4k slow motion"
+    };
+
+    function copyFlowPrompt(sceneNum) {
+      const prompt = flowPrompts[sceneNum];
+      navigator.clipboard.writeText(prompt).then(() => {
+        showToast(`🎥 씬 ${sceneNum} Google Flow 프롬프트가 복사되었습니다!`);
+      });
+    }
+
     function setProduct(name, category) {
       document.getElementById('productName').value = name;
       generateAiScript();
     }
 
-    // 도우인 떡상 공식에 맞춘 AI 대본 자동 생성
     function generateAiScript() {
       const product = document.getElementById('productName').value.trim();
-      let script = "";
-
-      if (product.includes("리프팅") || product.includes("스킨업")) {
-        script = "중요한 약속 전날 턱선 실종됐을 때, 아직도 아픈 시술을 받으세요? 스킨업 브이라인 리프팅 테이프 딱 붙이면, 처진 볼살과 이중턱이 3초 만에 리프팅! 초슬림 무광 방수 원단이라 화장해도 전혀 티 안 나고 하루 종일 짱짱해요. 프로필 링크에서 지금 단독 특가로 만나보세요!";
-      } else if (product.includes("헤드폰") || product.includes("이어폰")) {
-        script = "시끄러운 카페나 지하철에서 스트레스받으셨죠? 이 노이즈캔슬링 헤드폰 딱 착용하면, 주변 소음이 3초 만에 마법처럼 사라집니다! 40시간 연속 재생에 귀가 편안한 메모리폼까지. 지금 프로필 링크에서 파격 할인가로 만나보세요!";
-      } else if (product.includes("세척기")) {
-        script = "안경이나 반지 틈새에 낀 찌든 때, 아직도 칫솔로 문지르세요? 이 초음파 세척기에 물 넣고 버튼만 누르면, 3분 만에 새것처럼 투명하게 광이 납니다! 지금 프로필 링크에서 최저가 혜택을 놓치지 마세요!";
-      } else {
-        script = `아직도 불편하게 생활하고 계신가요? 이 ${product} 딱 하나만 있으면, 일상의 번거로움이 단 3초 만에 해결됩니다! 완벽한 내구성과 실용성까지 갖춘 필수 꿀템. 지금 바로 프로필 링크에서 한정 특가로 확인해 보세요!`;
-      }
-
+      let script = "중요한 약속 전날 턱선 실종됐을 때, 아직도 아픈 시술을 받으세요? 스킨업 브이라인 리프팅 테이프 딱 붙이면, 처진 볼살과 이중턱이 3초 만에 리프팅! 초슬림 무광 방수 원단이라 화장해도 전혀 티 안 나고 하루 종일 짱짱해요. 프로필 링크에서 지금 단독 특가로 만나보세요!";
       document.getElementById('scriptText').value = script;
       updatePreview();
       showToast("✨ 떡상 공식 대본이 생성되었습니다!");
     }
 
-    // 미리보기 화면 업데이트
     function updatePreview() {
       const product = document.getElementById('productName').value;
-      const script = document.getElementById('scriptText').value;
-      const voice = document.getElementById('voiceSelect');
-      const voiceText = voice.options[voice.selectedIndex].text.split(' - ')[0];
-
       document.getElementById('previewTitle').innerText = product || "추천 꿀템 상품명";
-      document.getElementById('previewVoiceBadge').innerText = `🎙️ ${voiceText}`;
-
-      // 첫 문장 추출
-      const words = script.split(' ');
-      if (words.length > 2) {
-        document.getElementById('previewSubtitle').innerHTML = `
-          <span class="preview-word-highlight">${words[0]}</span>
-          <span style="font-weight: 700; font-size: 17px; color: #FFF;">${words.slice(1, 6).join(' ')}...</span>
-        `;
-      }
-    }
-
-    // 명령어 복사 함수
-    function copyRenderCommand() {
-      const cmd = "npx remotion render src/index.ts LiftingTapeShorts out/lifting-tape-shorts.mp4";
-      navigator.clipboard.writeText(cmd).then(() => {
-        showToast("📋 렌더링 명령어가 클립보드에 복사되었습니다!");
-      });
     }
 
     function showToast(msg) {
@@ -523,7 +535,6 @@
       }, 2500);
     }
 
-    // 초기 로드 시 미리보기 반영
     updatePreview();
   </script>
 </body>

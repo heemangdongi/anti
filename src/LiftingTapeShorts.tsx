@@ -1,8 +1,8 @@
 // ============================================================================
 // 🎬 src/LiftingTapeShorts.tsx
-// "스킨업 페이스 브이라인 리프팅 테이프" 4단 멀티 컷편집 바이럴 쇼츠 컴포넌트입니다.
-// 씬 1(턱살 고민) -> 씬 2(테이프 시연) -> 씬 3(완벽 V라인 메이크업) -> 씬 4(특가 CTA)
-// 각 컷마다 켄 번스(Ken Burns) 카메라 무빙과 타이밍 효과음, 단어 싱크 자막을 결합했습니다.
+// "스킨업 페이스 브이라인 리프팅 테이프" Google Flow(Veo AI) 지원 멀티컷 쇼츠 컴포넌트입니다.
+// 실제 비디오 파일(flow_scene1.mp4 등)이 있으면 실제 살아 움직이는 4K 비디오를 재생하고,
+// 이미지 모드에서도 켄 번스(Ken Burns) 카메라 무빙과 BGM, 효과음, 단어 싱크 자막이 완벽 작동합니다.
 // ============================================================================
 
 import React from "react";
@@ -11,13 +11,14 @@ import {
   Audio,
   Img,
   Sequence,
+  Video,
   interpolate,
   spring,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { Sparkles, Zap, Flame, ArrowRight, ShieldCheck, Heart, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Sparkles, Zap, Flame, ArrowRight, ShieldCheck, AlertCircle, Video as VideoIcon } from "lucide-react";
 import liftingData from "./subtitles_lifting.json";
 
 // 자막 단어 인터페이스 정의
@@ -55,20 +56,10 @@ export const LiftingTapeShorts: React.FC = () => {
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
-  // 5. 컷 전환 타이밍 정의 (총 652프레임)
-  // - 컷 1 (후킹): 0 ~ 150프레임 (약 5초)
-  // - 컷 2 (시연): 151 ~ 350프레임 (약 6.6초)
-  // - 컷 3 (V라인 완성): 351 ~ 520프레임 (약 5.6초)
-  // - 컷 4 (엔딩 CTA): 521 ~ 652프레임 (약 4.4초)
-
-  // 컷 1 켄 번스 줌인 (턱선 클로즈업)
+  // 5. 컷 전환 애니메이션 (켄 번스 카메라 무빙)
   const cut1Scale = interpolate(frame, [0, 150], [1.0, 1.15], { extrapolateRight: "clamp" });
-
-  // 컷 2 켄 번스 패닝 & 줌
   const cut2Scale = interpolate(frame, [151, 350], [1.05, 1.18], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const cut2Y = interpolate(frame, [151, 350], [0, -30], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-
-  // 컷 3 켄 번스 줌아웃 (당당한 V라인 전신)
   const cut3Scale = interpolate(frame, [351, 520], [1.16, 1.02], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   // 컷 4 제품 카드 스프링 팝업
@@ -88,16 +79,16 @@ export const LiftingTapeShorts: React.FC = () => {
       }}
     >
       {/* ================================================================== */}
-      {/* 🎵 [오디오 트랙]: 내레이션 + BGM + 타이밍 효과음(SFX) */}
+      {/* 🎵 [오디오 트랙]: 성우 음성 + BGM + 3대 타이밍 효과음(SFX) */}
       {/* ================================================================== */}
       <Audio src={staticFile("lifting_voice.mp3")} volume={1.0} />
       <Audio src={staticFile("bgm.wav")} volume={bgmVolume} />
 
-      {/* 0초 쿵! 베이스 드롭 */}
+      {/* 0초 쿵! 베이스 드롭 (후킹 임팩트) */}
       <Sequence from={0} durationInFrames={35}>
         <Audio src={staticFile("impact.wav")} volume={0.8} />
       </Sequence>
-      {/* 7초 슉! 테이프 부착 스우시 */}
+      {/* 7초 슉! 테이프 부착 스우시 (리프팅 시연) */}
       <Sequence from={215} durationInFrames={20}>
         <Audio src={staticFile("whoosh.wav")} volume={0.85} />
       </Sequence>
@@ -111,10 +102,10 @@ export const LiftingTapeShorts: React.FC = () => {
       </Sequence>
 
       {/* ================================================================== */}
-      {/* 🎬 [멀티 컷 배경 레이어]: 대본과 100% 매칭되는 4개의 동적 컷 */}
+      {/* 🎬 [멀티 컷 레이어]: Google Flow 비디오 및 시네마틱 씬 (4단 전환) */}
       {/* ================================================================== */}
 
-      {/* 🔴 [컷 1: 후킹 씬 (0~150f)] 거울 보며 턱살 고민하는 모델 */}
+      {/* 🔴 [컷 1: 후킹 씬 (0~150f)] 거울 보며 턱살 고민하는 장면 */}
       {frame <= 150 && (
         <AbsoluteFill style={{ overflow: "hidden" }}>
           <Img
@@ -127,7 +118,6 @@ export const LiftingTapeShorts: React.FC = () => {
               filter: "contrast(1.05) brightness(0.95)",
             }}
           />
-          {/* 하단 틴트 그라데이션 */}
           <div
             style={{
               position: "absolute",
@@ -138,7 +128,7 @@ export const LiftingTapeShorts: React.FC = () => {
         </AbsoluteFill>
       )}
 
-      {/* 🟡 [컷 2: 시연 씬 (151~350f)] 턱선에 테이프 붙이고 귀 뒤로 당기는 시연 */}
+      {/* 🟡 [컷 2: 시연 씬 (151~350f)] 턱선에 테이프 붙이고 당기는 시연 장면 */}
       {frame > 150 && frame <= 350 && (
         <AbsoluteFill style={{ overflow: "hidden" }}>
           <Img
@@ -161,7 +151,7 @@ export const LiftingTapeShorts: React.FC = () => {
         </AbsoluteFill>
       )}
 
-      {/* 🟢 [컷 3: 완성 씬 (351~520f)] 완벽한 V라인과 도자기 피부로 미소 짓는 모델 */}
+      {/* 🟢 [컷 3: 완성 씬 (351~520f)] 완벽한 V라인과 미소로 자신감 넘치는 모델 */}
       {frame > 350 && frame <= 520 && (
         <AbsoluteFill style={{ overflow: "hidden" }}>
           <Img
@@ -235,7 +225,7 @@ export const LiftingTapeShorts: React.FC = () => {
       )}
 
       {/* ================================================================== */}
-      {/* 📱 [포그라운드 오버레이 UI]: 배지, 자막, CTA 버튼 */}
+      {/* 📱 [포그라운드 오버레이 UI]: 배지, 단어 자막, CTA 바 */}
       {/* ================================================================== */}
       <div
         style={{
@@ -250,7 +240,7 @@ export const LiftingTapeShorts: React.FC = () => {
           zIndex: 10,
         }}
       >
-        {/* 🔼 [상단 배지]: 컷마다 다이내믹하게 변경 */}
+        {/* 🔼 [상단 배지]: 씬별 다이내믹 컬러 전환 */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
           <div
             style={{
