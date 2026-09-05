@@ -1,0 +1,50 @@
+[
+  {
+    "id": "product-1",
+    "headlineText": "🔥 3일간 진행되는 역대급 파격 특가!",
+    "productName": "프리미엄 무선 노이즈캔슬링 헤드폰 PRO",
+    "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+    "originalPrice": "299,000원",
+    "discountPrice": "189,000원",
+    "discountRate": "36% OFF",
+    "features": [
+      "🎧 노이즈 캔슬링으로 완벽 소음 차단",
+      "🔋 40시간 연속 재생 대용량 배터리",
+      "☁️ 초경량 메모리폼의 편안한 착용감"
+    ],
+    "ctaText": "👉 프로필 링크 누르고 최저가 혜택 받기!",
+    "primaryColor": "#FF385C"
+  },
+  {
+    "id": "product-2",
+    "headlineText": "⚡️ 한정 수량! 미친 가성비 스마트워치",
+    "productName": "울트라 아웃도어 스마트 워치 2",
+    "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
+    "originalPrice": "159,000원",
+    "discountPrice": "79,000원",
+    "discountRate": "50% OFF",
+    "features": [
+      "🏃‍♂️ 100가지 스포츠 모드 & 헬스 케어",
+      "💧 50m 방수 지원 & 티타늄 바디",
+      "🔋 1회 충전으로 14일 지속 배터리"
+    ],
+    "ctaText": "👉 수량 소진 전 프로필 링크로 구매!",
+    "primaryColor": "#2563EB"
+  },
+  {
+    "id": "product-3",
+    "headlineText": "🧹 삶의 질 200% 상승 필수 가전템!",
+    "productName": "스마트 AI 올인원 로봇 청소기",
+    "imageUrl": "https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?w=800&q=80",
+    "originalPrice": "890,000원",
+    "discountPrice": "499,000원",
+    "discountRate": "44% OFF",
+    "features": [
+      "✨ 먼지 비움부터 물걸레 세척까지 자동으로!",
+      "🎯 LiDAR 센서로 장애물 완벽 회피",
+      "🔇 도서관 수준의 초저음 청소 모드"
+    ],
+    "ctaText": "👉 오늘만 이 가격! 프로필 링크 클릭",
+    "primaryColor": "#059669"
+  }
+]

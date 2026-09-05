@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "notebooklm": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@m4ykeldev/notebooklm-mcp"
+      ],
+      "env": {}
+    },
+    "notion": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@notionhq/mcp-server"
+      ],
+      "env": {
+        "NOTION_API_TOKEN": "YOUR_NOTION_API_TOKEN_HERE"
+      }
+    }
+  }
+}
