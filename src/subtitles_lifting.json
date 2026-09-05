@@ -1,0 +1,327 @@
+{
+  "script": "중요한 약속 전날 턱선 실종됐을 때, 아직도 아픈 시술을 받으세요? 스킨업 브이라인 리프팅 테이프 딱 붙이면, 처진 볼살과 이중턱이 3초 만에 리프팅! 초슬림 무광 방수 원단이라 화장해도 전혀 티 안 나고 하루 종일 짱짱해요. 프로필 링크에서 지금 단독 특가로 만나보세요!",
+  "fps": 30,
+  "totalFrames": 652,
+  "subtitles": [
+    {
+      "id": 1,
+      "text": "중요한",
+      "startSec": 0.097166,
+      "endSec": 0.557082,
+      "startFrame": 3,
+      "endFrame": 17
+    },
+    {
+      "id": 2,
+      "text": "약속",
+      "startSec": 0.568875,
+      "endSec": 0.934458,
+      "startFrame": 17,
+      "endFrame": 28
+    },
+    {
+      "id": 3,
+      "text": "전날",
+      "startSec": 0.946208,
+      "endSec": 1.276416,
+      "startFrame": 28,
+      "endFrame": 38
+    },
+    {
+      "id": 4,
+      "text": "턱선",
+      "startSec": 1.288208,
+      "endSec": 1.618416,
+      "startFrame": 39,
+      "endFrame": 49
+    },
+    {
+      "id": 5,
+      "text": "실종됐을",
+      "startSec": 1.630208,
+      "endSec": 2.2905830000000003,
+      "startFrame": 49,
+      "endFrame": 69
+    },
+    {
+      "id": 6,
+      "text": "때",
+      "startSec": 2.302375,
+      "endSec": 2.632583,
+      "startFrame": 69,
+      "endFrame": 79
+    },
+    {
+      "id": 7,
+      "text": "아직도",
+      "startSec": 2.868416,
+      "endSec": 3.3047489999999997,
+      "startFrame": 86,
+      "endFrame": 99
+    },
+    {
+      "id": 8,
+      "text": "아픈",
+      "startSec": 3.3165,
+      "endSec": 3.646708,
+      "startFrame": 99,
+      "endFrame": 109
+    },
+    {
+      "id": 9,
+      "text": "시술을",
+      "startSec": 3.6585,
+      "endSec": 4.035875,
+      "startFrame": 110,
+      "endFrame": 121
+    },
+    {
+      "id": 10,
+      "text": "받으세요",
+      "startSec": 4.047625,
+      "endSec": 4.708,
+      "startFrame": 121,
+      "endFrame": 141
+    },
+    {
+      "id": 11,
+      "text": "스킨업",
+      "startSec": 5.518875,
+      "endSec": 5.908041000000001,
+      "startFrame": 166,
+      "endFrame": 177
+    },
+    {
+      "id": 12,
+      "text": "브이라인",
+      "startSec": 5.919791,
+      "endSec": 6.367916,
+      "startFrame": 178,
+      "endFrame": 191
+    },
+    {
+      "id": 13,
+      "text": "리프팅",
+      "startSec": 6.379708,
+      "endSec": 6.839624,
+      "startFrame": 191,
+      "endFrame": 205
+    },
+    {
+      "id": 14,
+      "text": "테이프",
+      "startSec": 6.851416,
+      "endSec": 7.181624,
+      "startFrame": 206,
+      "endFrame": 215
+    },
+    {
+      "id": 15,
+      "text": "딱",
+      "startSec": 7.193416,
+      "endSec": 7.346707,
+      "startFrame": 216,
+      "endFrame": 220
+    },
+    {
+      "id": 16,
+      "text": "붙이면",
+      "startSec": 7.3585,
+      "endSec": 7.948125,
+      "startFrame": 221,
+      "endFrame": 238
+    },
+    {
+      "id": 17,
+      "text": "처진",
+      "startSec": 8.077833,
+      "endSec": 8.419833,
+      "startFrame": 242,
+      "endFrame": 253
+    },
+    {
+      "id": 18,
+      "text": "볼살과",
+      "startSec": 8.431625,
+      "endSec": 9.02125,
+      "startFrame": 253,
+      "endFrame": 271
+    },
+    {
+      "id": 19,
+      "text": "이중턱이",
+      "startSec": 9.033,
+      "endSec": 9.669791,
+      "startFrame": 271,
+      "endFrame": 290
+    },
+    {
+      "id": 20,
+      "text": "3초",
+      "startSec": 9.681625,
+      "endSec": 10.058957900000001,
+      "startFrame": 290,
+      "endFrame": 302
+    },
+    {
+      "id": 21,
+      "text": "만에",
+      "startSec": 10.07075,
+      "endSec": 10.400958000000001,
+      "startFrame": 302,
+      "endFrame": 312
+    },
+    {
+      "id": 22,
+      "text": "리프팅",
+      "startSec": 10.41275,
+      "endSec": 11.084916000000002,
+      "startFrame": 312,
+      "endFrame": 333
+    },
+    {
+      "id": 23,
+      "text": "초슬림",
+      "startSec": 11.898583,
+      "endSec": 12.370291,
+      "startFrame": 357,
+      "endFrame": 371
+    },
+    {
+      "id": 24,
+      "text": "무광",
+      "startSec": 12.382083,
+      "endSec": 12.700498999999999,
+      "startFrame": 371,
+      "endFrame": 381
+    },
+    {
+      "id": 25,
+      "text": "방수",
+      "startSec": 12.71225,
+      "endSec": 13.018832999999999,
+      "startFrame": 381,
+      "endFrame": 391
+    },
+    {
+      "id": 26,
+      "text": "원단이라",
+      "startSec": 13.030666,
+      "endSec": 13.561332,
+      "startFrame": 391,
+      "endFrame": 407
+    },
+    {
+      "id": 27,
+      "text": "화장해도",
+      "startSec": 13.573125,
+      "endSec": 14.245291,
+      "startFrame": 407,
+      "endFrame": 427
+    },
+    {
+      "id": 28,
+      "text": "전혀",
+      "startSec": 14.257083,
+      "endSec": 14.622665999999999,
+      "startFrame": 428,
+      "endFrame": 439
+    },
+    {
+      "id": 29,
+      "text": "티",
+      "startSec": 14.634416,
+      "endSec": 14.823082,
+      "startFrame": 439,
+      "endFrame": 445
+    },
+    {
+      "id": 30,
+      "text": "안",
+      "startSec": 14.834916,
+      "endSec": 14.964624,
+      "startFrame": 445,
+      "endFrame": 449
+    },
+    {
+      "id": 31,
+      "text": "나고",
+      "startSec": 14.976416,
+      "endSec": 15.318416000000001,
+      "startFrame": 449,
+      "endFrame": 460
+    },
+    {
+      "id": 32,
+      "text": "하루",
+      "startSec": 15.330208,
+      "endSec": 15.707583000000001,
+      "startFrame": 460,
+      "endFrame": 471
+    },
+    {
+      "id": 33,
+      "text": "종일",
+      "startSec": 15.719333,
+      "endSec": 16.002333,
+      "startFrame": 472,
+      "endFrame": 480
+    },
+    {
+      "id": 34,
+      "text": "짱짱해요",
+      "startSec": 16.014166,
+      "endSec": 16.768874,
+      "startFrame": 480,
+      "endFrame": 503
+    },
+    {
+      "id": 35,
+      "text": "프로필",
+      "startSec": 17.594333,
+      "endSec": 17.983499,
+      "startFrame": 528,
+      "endFrame": 540
+    },
+    {
+      "id": 36,
+      "text": "링크에서",
+      "startSec": 17.995291,
+      "endSec": 18.643874,
+      "startFrame": 540,
+      "endFrame": 559
+    },
+    {
+      "id": 37,
+      "text": "지금",
+      "startSec": 18.655666,
+      "endSec": 19.162749,
+      "startFrame": 560,
+      "endFrame": 575
+    },
+    {
+      "id": 38,
+      "text": "단독",
+      "startSec": 19.174541,
+      "endSec": 19.551916000000002,
+      "startFrame": 575,
+      "endFrame": 587
+    },
+    {
+      "id": 39,
+      "text": "특가로",
+      "startSec": 19.563666,
+      "endSec": 19.917457000000002,
+      "startFrame": 587,
+      "endFrame": 598
+    },
+    {
+      "id": 40,
+      "text": "만나보세요",
+      "startSec": 19.92925,
+      "endSec": 20.742916,
+      "startFrame": 598,
+      "endFrame": 622
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import { Composition } from "remotion";
 import { MainComposition } from "./Composition";
 import { ProductShorts } from "./ProductShorts";
 import { VoiceShorts } from "./VoiceShorts";
+import { LiftingTapeShorts } from "./LiftingTapeShorts";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -66,6 +67,16 @@ export const RemotionRoot: React.FC = () => {
           primaryColor: "#FF007A",
           secondaryColor: "#7928CA",
         }}
+      />
+
+      {/* 4. 💖 스킨업 페이스 브이라인 리프팅 테이프 떡상 숏폼 (세로형 9:16 - 1080x1920, 약 21초/652프레임) */}
+      <Composition<any, any>
+        id="LiftingTapeShorts"
+        component={LiftingTapeShorts}
+        durationInFrames={652}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );
